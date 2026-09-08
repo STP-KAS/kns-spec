@@ -1,0 +1,18 @@
+# KNS implementer kit (STP-KAS)
+
+Share URL: https://stp-kas.github.io/kns-spec/
+Repo: https://github.com/STP-KAS/kns-spec
+Letter: https://github.com/STP-KAS/kns-spec/blob/main/FOR-KNS.md
+
+Two objects. Do not mix them.
+
+- Inscription: protocol id kns, commit-reveal, uniqueness = official indexer FCFS, wallet = KasWare buildScript type KNS.
+- Covenant: P2SH of KasName.sil, unrevealed deploys on https://covenants.kaspa.com/covenants. Not consensus uniqueness. KIP-20 covenant_id is from an outpoint, not the label.
+
+Proven:
+
+- kns.kas inscription reveal 223233acf8e5abea9291627a5edd859439c4553100c71309b86599f02414a532 payload {"op":"create","p":"domain","v":"kns"}
+- bakery.kas / michelleobamaisaman.kas / trump.kas / opus.kas / opus.dei.kas unrevealed P2SH deploys (see proofs/proofs.json)
+
+Implement: PROTOCOL.md, KASWARE.md, optional contracts/v1/KasName.sil. No foreign readInputState on silverscript v1-rc1.
+Never ask for a seed.

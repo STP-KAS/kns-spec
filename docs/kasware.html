@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KasWare — inscribe a .kas name</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <a class="brand" href="./">KNS implementer kit</a>
+  <nav>
+    <a href="./">For KNS</a>
+    <a href="protocol.html">Protocol</a>
+    <a href="kasware.html" aria-current="page">KasWare</a>
+    <a href="proofs.html">Proofs</a>
+    <a href="https://github.com/STP-KAS/kns-spec">GitHub</a>
+  </nav>
+</header>
+<main>
+  <p class="kicker">window.kasware</p>
+  <h1>Inscribe a .kas name with KasWare</h1>
+  <p class="lede">Vendor docs: <a href="https://docs.kasware.xyz/wallet/developer-documentation/kaspa/kaspa-krc20">buildScript</a> (KRC-20 page also covers KNS). Chrome extension + Android APK. Not iOS. Do not call <code>requestAccounts()</code> on page load.</p>
+  <p><a href="kasware-create.html">Open the working page</a>. It never asks for a seed.</p>
+
+  <h2>Connect</h2>
+  <pre><code>const accounts = await window.kasware.requestAccounts();
+const address = accounts[0];
+// quiet resume: getAccounts()</code></pre>
+
+  <h2>Create example.kas</h2>
+  <pre><code>const payload = JSON.stringify({ op: "create", p: "domain", v: "example" });
+
+const { script, p2shAddress } = await window.kasware.buildScript({
+  type: "KNS",
+  data: payload,
+});
+
+const entries = await window.kasware.getUtxoEntries();
+const [address] = await window.kasware.getAccounts();
+
+const fee = "kaspa:qyp4nvaq3pdq7609z09fvdgwtc9c7rg07fuw5zgeee7xpr085de59eseqfcmynn";
+const priceKas = 35; // 5+ graphemes
+
+const { commitIds, revealIds } = await window.kasware.submitCommitReveal(
+  {
+    priorityEntries: [],
+    entries,
+    outputs: [{ address: p2shAddress, amount: 1 }],
+    changeAddress: address,
+    priorityFee: 0.01,
+  },
+  {
+    outputs: [{ address: fee, amount: priceKas }],
+    changeAddress: address,
+    priorityFee: 0.02,
+  },
+  script,
+  "mainnet"
+);
+// revealIds[0] is the inscription tx. Id is usually `${revealIds[0]}i0`.</code></pre>
+  <p>Amounts in <code>submitCommitReveal</code> are <strong>KAS</strong>, not sompi. <code>buildScript</code> is safe (no popup). Reveal requires approval.</p>
+
+  <h2>Transfer</h2>
+  <pre><code>{"op":"transfer","p":"domain","id":"&lt;inscriptionId&gt;","to":"kaspa:q…"}</code></pre>
+  <p>Same <code>type: "KNS"</code>. Sender must be the current owner.</p>
+
+  <h2>Check first</h2>
+  <pre><code>await fetch("https://api.knsdomains.org/mainnet/api/v1/domains/check", {
+  method: "POST",
+  headers: { "content-type": "application/json" },
+  body: JSON.stringify({ domainNames: ["example.kas"], address }),
+});</code></pre>
+  <p>If <code>available</code> is false, do not inscribe. A losing reveal still pays the fee.</p>
+</main>
+<footer>STP-KAS · MIT · KasWare API belongs to KasWare</footer>
+</body>
+</html>
