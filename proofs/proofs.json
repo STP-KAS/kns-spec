@@ -1,0 +1,111 @@
+{
+  "checked": "2026-09-08",
+  "sources": {
+    "knsIndexer": "https://api.knsdomains.org/mainnet",
+    "l1": "https://api.kaspa.org",
+    "covenantIndexer": "https://indexer.kaspa.com",
+    "covenantExplorer": "https://covenants.kaspa.com"
+  },
+  "inscriptions": [
+    {
+      "name": "kns.kas",
+      "kind": "kns-inscription",
+      "op": "create",
+      "payload": "{\"op\":\"create\",\"p\":\"domain\",\"v\":\"kns\"}",
+      "inscriptionId": "223233acf8e5abea9291627a5edd859439c4553100c71309b86599f02414a532i0",
+      "txid": "223233acf8e5abea9291627a5edd859439c4553100c71309b86599f02414a532",
+      "owner": "kaspa:qzt9yuqceqvt2vk9dz7ddzayaa5flnenkymec59xvzm55ln3k72vgecxjhnjp",
+      "created": "2025-01-27T07:49:21.623Z",
+      "verifiedDomain": true,
+      "onCovenantExplorer": false,
+      "note": "Reveal signature script contains protocol id kns and the create JSON. Not a Toccata covenant program.",
+      "explorer": "https://explorer.kaspa.org/txs/223233acf8e5abea9291627a5edd859439c4553100c71309b86599f02414a532"
+    }
+  ],
+  "covenants": [
+    {
+      "name": "bakery.kas",
+      "kind": "unrevealed-p2sh-deploy",
+      "txid": "095622d4aa4f46cac8a4012d289ed78a7bd16e9acd47d7e94ee17ae0d601f1ca",
+      "p2sh": "kaspa:pzd65h9c7p58dsd6skxggnsr6hgzmgzpjeehv82da2ywy8pyx2ng2mt59qgwj",
+      "scriptHash": "9baa5cb8f06876c1ba858c844e03d5d02da0419673761d4dea88e21c2432a685",
+      "covenantIdHex": "9baa5cb8f06876c1ba858c844e03d5d02da0419673761d4dea88e21c2432a685",
+      "identitySource": "scriptHashFallback",
+      "classificationStatus": "unrevealed",
+      "action": "deploy",
+      "amountSompi": 50000000,
+      "funder": "kaspa:qrw0tuxnjukkrk7lm5v7chx4qpu8f8q0janp7jdk80z4tc8anu62g62s4zsj0",
+      "knsInscriptionOwner": "kaspa:qzxhlzwx7flt6c3hz5fldkknaj6f609ux06a8csgejl43nqqj9zwynyaty5kw",
+      "knsInscriptionId": "ee513efe75765ff87e9fa9070542d58c7ae184c539e1e3706b116d9dc4d8f18ei0",
+      "note": "KNS inscription for bakery.kas already exists on a different key. This P2SH is a second object.",
+      "covenantUrl": "https://covenants.kaspa.com/covenants/9baa5cb8f06876c1ba858c844e03d5d02da0419673761d4dea88e21c2432a685",
+      "txUrl": "https://covenants.kaspa.com/tx/095622d4aa4f46cac8a4012d289ed78a7bd16e9acd47d7e94ee17ae0d601f1ca"
+    },
+    {
+      "name": "michelleobamaisaman.kas",
+      "kind": "unrevealed-p2sh-deploy",
+      "txid": "abf7d9e1199e7d3c2fd7121b261aa3284eb062a19e5c2f1afefc0257f2d61c2d",
+      "p2sh": "kaspa:prmlhuy6krysawyj9pfgty86pr9yad8peeeavtd407u9743xc60avx9afs8yn",
+      "scriptHash": "f7fbf09ab0c90eb89228528590fa08ca4eb4e1ce73d62db57fb85f5626c69fd6",
+      "covenantIdHex": "f7fbf09ab0c90eb89228528590fa08ca4eb4e1ce73d62db57fb85f5626c69fd6",
+      "identitySource": "scriptHashFallback",
+      "classificationStatus": "unrevealed",
+      "action": "deploy",
+      "amountSompi": 10000000000,
+      "funder": "kaspa:qrw0tuxnjukkrk7lm5v7chx4qpu8f8q0janp7jdk80z4tc8anu62g62s4zsj0",
+      "covenantUrl": "https://covenants.kaspa.com/covenants/f7fbf09ab0c90eb89228528590fa08ca4eb4e1ce73d62db57fb85f5626c69fd6",
+      "txUrl": "https://covenants.kaspa.com/tx/abf7d9e1199e7d3c2fd7121b261aa3284eb062a19e5c2f1afefc0257f2d61c2d"
+    },
+    {
+      "name": "trump.kas",
+      "kind": "unrevealed-p2sh-deploy",
+      "txid": "22ca97e171336859031fdc12c649e50711c330a43a7c8350f7038ab75abb1084",
+      "p2sh": "kaspa:ppdp80xszv5f077eg6zn23xfrn5u8ftmr37lh88xn32tk0n5tummzrykj3hht",
+      "scriptHash": "5a13bcd0132897fbd946853544c91ce9c3a57b1c7dfb9ce69c54bb3e745f37b1",
+      "covenantIdHex": "5a13bcd0132897fbd946853544c91ce9c3a57b1c7dfb9ce69c54bb3e745f37b1",
+      "identitySource": "scriptHashFallback",
+      "classificationStatus": "unrevealed",
+      "action": "deploy",
+      "amountSompi": 10000000000,
+      "funder": "kaspa:qrw0tuxnjukkrk7lm5v7chx4qpu8f8q0janp7jdk80z4tc8anu62g62s4zsj0",
+      "knsInscriptionOwner": "kaspa:qpf4hkrmwtu0lrunml3aatlt0n0jhdjawef9p4zy2yx7a98wqj62z7sw5tvvl",
+      "knsInscriptionId": "ba3c1cf71df76a188ad5032eba1804e321278d1189399084c0024e0c9486e147i0",
+      "note": "KNS inscription for trump.kas already exists on a different key. This P2SH is a second object.",
+      "covenantUrl": "https://covenants.kaspa.com/covenants/5a13bcd0132897fbd946853544c91ce9c3a57b1c7dfb9ce69c54bb3e745f37b1",
+      "txUrl": "https://covenants.kaspa.com/tx/22ca97e171336859031fdc12c649e50711c330a43a7c8350f7038ab75abb1084"
+    },
+    {
+      "name": "opus.kas",
+      "kind": "unrevealed-p2sh-deploy",
+      "txid": "bb8e054d8cf3f9f75dc99d76910669b48c8cff36d9d1fe1b378a007c653fadf3",
+      "p2sh": "kaspa:ppev2ksf46nlzkl6mxw3alq5sktmcnh2mr7485rkylcc09pdn849zy2llsgzl",
+      "scriptHash": "72c55a09aea7f15bfad99d1efc148597bc4eead8fd53d07627f187942d99ea51",
+      "covenantIdHex": "72c55a09aea7f15bfad99d1efc148597bc4eead8fd53d07627f187942d99ea51",
+      "identitySource": "scriptHashFallback",
+      "classificationStatus": "unrevealed",
+      "action": "deploy",
+      "amountSompi": 10000000000,
+      "funder": "kaspa:qrw0tuxnjukkrk7lm5v7chx4qpu8f8q0janp7jdk80z4tc8anu62g62s4zsj0",
+      "knsInscriptionOwner": null,
+      "note": "No KNS inscription for opus.kas (indexer: domain not found). Covenant P2SH only.",
+      "covenantUrl": "https://covenants.kaspa.com/covenants/72c55a09aea7f15bfad99d1efc148597bc4eead8fd53d07627f187942d99ea51",
+      "txUrl": "https://covenants.kaspa.com/tx/bb8e054d8cf3f9f75dc99d76910669b48c8cff36d9d1fe1b378a007c653fadf3"
+    },
+    {
+      "name": "opus.dei.kas",
+      "kind": "unrevealed-p2sh-deploy",
+      "txid": "34d410ef5df5d75256334f6521c62f1654c624987e5ac0c049ed68c54061e7b7",
+      "p2sh": "kaspa:pphhhqdalynfklklf9gx2cct9myu0xmpg0e8llcvsyqe3r98vqsggx9tpznel",
+      "scriptHash": "6f7b81bdf9269b7edf495065630b2ec9c79b6143f27fff0c8101988ca7602084",
+      "covenantIdHex": "6f7b81bdf9269b7edf495065630b2ec9c79b6143f27fff0c8101988ca7602084",
+      "identitySource": "scriptHashFallback",
+      "classificationStatus": "unrevealed",
+      "action": "deploy",
+      "amountSompi": 10000000000,
+      "funder": "kaspa:qrw0tuxnjukkrk7lm5v7chx4qpu8f8q0janp7jdk80z4tc8anu62g62s4zsj0",
+      "note": "Subname shape. Inscription create takes a single label. Not a KNS op.",
+      "covenantUrl": "https://covenants.kaspa.com/covenants/6f7b81bdf9269b7edf495065630b2ec9c79b6143f27fff0c8101988ca7602084",
+      "txUrl": "https://covenants.kaspa.com/tx/34d410ef5df5d75256334f6521c62f1654c624987e5ac0c049ed68c54061e7b7"
+    }
+  ]
+}
