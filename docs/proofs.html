@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proven mainnet txs</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <a class="brand" href="./">KNS implementer kit</a>
+  <nav>
+    <a href="./">For KNS</a>
+    <a href="protocol.html">Protocol</a>
+    <a href="kasware.html">KasWare</a>
+    <a href="proofs.html" aria-current="page">Proofs</a>
+    <a href="https://github.com/STP-KAS/kns-spec">GitHub</a>
+  </nav>
+</header>
+<main>
+  <p class="kicker">Checked 2026-09-08</p>
+  <h1>Proven txs</h1>
+  <p class="lede">L1: <a href="https://api.kaspa.org">api.kaspa.org</a>. Names: <a href="https://api.knsdomains.org/mainnet">api.knsdomains.org</a>. Covenants: <a href="https://covenants.kaspa.com/covenants">covenants.kaspa.com</a> via <code>indexer.kaspa.com</code>. Machine file: <a href="https://github.com/STP-KAS/kns-spec/blob/main/proofs/proofs.json">proofs.json</a>.</p>
+
+  <h2>Inscription</h2>
+  <div class="wrap">
+    <table>
+      <tr><th>name</th><td>kns.kas</td></tr>
+      <tr><th>payload</th><td><code>{"op":"create","p":"domain","v":"kns"}</code></td></tr>
+      <tr><th>id</th><td class="mono">223233acf8e5abea9291627a5edd859439c4553100c71309b86599f02414a532i0</td></tr>
+      <tr><th>tx</th><td><a href="https://explorer.kaspa.org/txs/223233acf8e5abea9291627a5edd859439c4553100c71309b86599f02414a532">223233acf8…a532</a></td></tr>
+      <tr><th>owner</th><td class="mono">kaspa:qzt9yuqceqvt2vk9dz7ddzayaa5flnenkymec59xvzm55ln3k72vgecxjhnjp</td></tr>
+      <tr><th>covenant explorer</th><td>no row — pubkey envelope, not a covenant program</td></tr>
+    </table>
+  </div>
+
+  <h2>Covenant deploys</h2>
+  <p>Unrevealed P2SH. Explorer action <code>deploy</code>. Identity is the script hash until a program is revealed.</p>
+  <div class="wrap">
+    <table>
+      <thead>
+        <tr><th>Name</th><th>KAS</th><th>P2SH</th><th>Links</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>bakery.kas</td><td>0.5</td>
+          <td class="mono">kaspa:pzd65h9c7p58dsd6skxggnsr6hgzmgzpjeehv82da2ywy8pyx2ng2mt59qgwj</td>
+          <td><a href="https://covenants.kaspa.com/tx/095622d4aa4f46cac8a4012d289ed78a7bd16e9acd47d7e94ee17ae0d601f1ca">tx</a> · <a href="https://covenants.kaspa.com/covenants/9baa5cb8f06876c1ba858c844e03d5d02da0419673761d4dea88e21c2432a685">covenant</a></td>
+        </tr>
+        <tr>
+          <td>michelleobamaisaman.kas</td><td>100</td>
+          <td class="mono">kaspa:prmlhuy6krysawyj9pfgty86pr9yad8peeeavtd407u9743xc60avx9afs8yn</td>
+          <td><a href="https://covenants.kaspa.com/tx/abf7d9e1199e7d3c2fd7121b261aa3284eb062a19e5c2f1afefc0257f2d61c2d">tx</a> · <a href="https://covenants.kaspa.com/covenants/f7fbf09ab0c90eb89228528590fa08ca4eb4e1ce73d62db57fb85f5626c69fd6">covenant</a></td>
+        </tr>
+        <tr>
+          <td>trump.kas</td><td>100</td>
+          <td class="mono">kaspa:ppdp80xszv5f077eg6zn23xfrn5u8ftmr37lh88xn32tk0n5tummzrykj3hht</td>
+          <td><a href="https://covenants.kaspa.com/tx/22ca97e171336859031fdc12c649e50711c330a43a7c8350f7038ab75abb1084">tx</a> · <a href="https://covenants.kaspa.com/covenants/5a13bcd0132897fbd946853544c91ce9c3a57b1c7dfb9ce69c54bb3e745f37b1">covenant</a></td>
+        </tr>
+        <tr>
+          <td>opus.kas</td><td>100</td>
+          <td class="mono">kaspa:ppev2ksf46nlzkl6mxw3alq5sktmcnh2mr7485rkylcc09pdn849zy2llsgzl</td>
+          <td><a href="https://covenants.kaspa.com/tx/bb8e054d8cf3f9f75dc99d76910669b48c8cff36d9d1fe1b378a007c653fadf3">tx</a> · <a href="https://covenants.kaspa.com/covenants/72c55a09aea7f15bfad99d1efc148597bc4eead8fd53d07627f187942d99ea51">covenant</a></td>
+        </tr>
+        <tr>
+          <td>opus.dei.kas</td><td>100</td>
+          <td class="mono">kaspa:pphhhqdalynfklklf9gx2cct9myu0xmpg0e8llcvsyqe3r98vqsggx9tpznel</td>
+          <td><a href="https://covenants.kaspa.com/tx/34d410ef5df5d75256334f6521c62f1654c624987e5ac0c049ed68c54061e7b7">tx</a> · <a href="https://covenants.kaspa.com/covenants/6f7b81bdf9269b7edf495065630b2ec9c79b6143f27fff0c8101988ca7602084">covenant</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note">
+    <code>bakery.kas</code> and <code>trump.kas</code> already have KNS inscriptions on other keys. Those P2SHs are a second object. <code>opus.kas</code> has no inscription. Subnames are not an inscription op.
+  </div>
+  <p>Re-check from the repo:</p>
+  <pre><code>go run ./cmd/kns-spec prove</code></pre>
+</main>
+<footer>STP-KAS · MIT</footer>
+</body>
+</html>

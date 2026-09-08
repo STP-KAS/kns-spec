@@ -1,5 +1,9 @@
 # KNS implementer kit
 
+**URL for the KNS team:** https://stp-kas.github.io/kns-spec/
+
+Letter in this repo: [FOR-KNS.md](FOR-KNS.md).
+
 For the KNS team and wallets. Two objects. Do not mix them.
 
 | Layer | On chain today | Uniqueness | Wallet |

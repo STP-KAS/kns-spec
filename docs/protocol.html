@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KNS inscription protocol</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <a class="brand" href="./">KNS implementer kit</a>
+  <nav>
+    <a href="./">For KNS</a>
+    <a href="protocol.html" aria-current="page">Protocol</a>
+    <a href="kasware.html">KasWare</a>
+    <a href="proofs.html">Proofs</a>
+    <a href="https://github.com/STP-KAS/kns-spec">GitHub</a>
+  </nav>
+</header>
+<main>
+  <p class="kicker">Copy of official KNS docs, implementable</p>
+  <h1>Inscription protocol</h1>
+  <p class="lede">Source of truth: <a href="https://kns-2.gitbook.io/kns-docs-1/inscriptions/overview">KNS docs</a>. This page is the copy a wallet or indexer can ship without hunting.</p>
+
+  <h2>Envelope</h2>
+  <p>Protocol id <code>kns</code>. Commit-reveal P2SH. Same family as KRC-20.</p>
+  <pre><code>&lt;xonly_pubkey&gt; OP_CHECKSIG OP_FALSE OP_IF &lt;kns&gt; &lt;0&gt; &lt;payload&gt; OP_ENDIF</code></pre>
+  <p>KasWare builds this with <code>buildScript({ type: "KNS", data })</code>. Tangem uses ECDSA instead of Schnorr; the envelope is the same.</p>
+  <p>Max envelope 520 bytes. Label max 255 chars. ENS-normalize (<code>@adraffy/ens-normalize</code>). Visual length for price is grapheme length (<code>graphemer</code>). Do not price emoji domains with UTF-16 <code>length</code>.</p>
+
+  <h2>Ops</h2>
+  <div class="wrap">
+    <table>
+      <thead><tr><th>op</th><th>payload</th><th>When</th></tr></thead>
+      <tbody>
+        <tr><td>create</td><td><code>{"op":"create","p":"domain","v":"&lt;label&gt;"}</code></td><td>Register. <code>s</code> optional TLD, default <code>kas</code>.</td></tr>
+        <tr><td>transfer</td><td><code>{"op":"transfer","p":"domain","id":"…","to":"kaspa:…"}</code></td><td>Owner change.</td></tr>
+        <tr><td>list</td><td><code>{"op":"list","p":"domain","id":"…"}</code></td><td>Marketplace listing.</td></tr>
+        <tr><td>send</td><td><code>{"op":"send","id":"…"}</code></td><td>Fill a listing.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><code>v</code> is the label <strong>without</strong> <code>.kas</code>. Compact JSON. Proven: <code>kns.kas</code> used exactly <code>{"op":"create","p":"domain","v":"kns"}</code>.</p>
+
+  <h2>Fees (reveal output 0)</h2>
+  <div class="wrap">
+    <table>
+      <tr><th>mainnet</th><td class="mono">kaspa:qyp4nvaq3pdq7609z09fvdgwtc9c7rg07fuw5zgeee7xpr085de59eseqfcmynn</td></tr>
+      <tr><th>tn10</th><td class="mono">kaspatest:qq9h47etjv6x8jgcla0ecnp8mgrkfxm70ch3k60es5a50ypsf4h6sak3g0lru</td></tr>
+    </table>
+  </div>
+  <div class="wrap">
+    <table>
+      <thead><tr><th>Visual length</th><th>KAS</th></tr></thead>
+      <tbody>
+        <tr><td>1–2</td><td>4200</td></tr>
+        <tr><td>3</td><td>2100</td></tr>
+        <tr><td>4</td><td>525</td></tr>
+        <tr><td>5+</td><td>35</td></tr>
+        <tr><td>text inscription</td><td>1</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>No renewal. First-come, first-served. Check before inscribing:</p>
+  <pre><code>POST https://api.knsdomains.org/mainnet/api/v1/domains/check
+{"domainNames":["example.kas"],"address":"&lt;payer&gt;"}</code></pre>
+
+  <h2>Resolve</h2>
+  <p>URL-encode the name. Bases: <code>https://api.knsdomains.org/mainnet</code> and <code>/tn10</code>. OpenAPI: <a href="https://apidoc.knsdomains.org/mainnet/">apidoc.knsdomains.org</a>.</p>
+  <pre><code>GET  /api/v1/{domain}/owner
+GET  /api/v1/assets?owner=&amp;asset=&amp;type=domain
+GET  /api/v1/asset/{assetId}/detail
+GET  /api/v1/domain/{assetId}/profile?keys=redirectUrl,bio,avatarUrl,website,x,github,telegram,discord,email,banner
+GET  /api/v1/primary-name/{owner}
+POST /api/v1/domain/primary-name</code></pre>
+  <div class="warn">Show the resolved address. It is indexer-derived, not consensus. Transfers cannot be reversed.</div>
+
+  <h2>What inscription KNS cannot do</h2>
+  <ul>
+    <li>Subnames (<code>pay.shop.kas</code>). Create takes one label.</li>
+    <li>Consensus uniqueness. A second valid reveal is ignored by the indexer, not rejected by nodes.</li>
+    <li>Store records in a UTXO. That is <a href="https://github.com/STP-KAS/kns-spec/blob/main/contracts/v1/KasName.sil">KasName.sil</a>.</li>
+  </ul>
+</main>
+<footer>STP-KAS · MIT · Protocol belongs to KNS</footer>
+</body>
+</html>

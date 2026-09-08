@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Create a .kas name — KasWare</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <a class="brand" href="./">KNS implementer kit</a>
+  <nav>
+    <a href="./">For KNS</a>
+    <a href="protocol.html">Protocol</a>
+    <a href="kasware.html">KasWare</a>
+    <a href="proofs.html">Proofs</a>
+    <a href="https://github.com/STP-KAS/kns-spec">GitHub</a>
+  </nav>
+</header>
+<main>
+  <p class="kicker">Working page</p>
+  <h1>Create a .kas name with KasWare</h1>
+  <div class="warn">This page never asks for a seed. Check availability first. Reveal output 0 pays the KNS fee. Uniqueness is the indexer, not consensus. Verify any resolved address before sending KAS.</div>
+  <label for="label">Label (no .kas)</label>
+  <input id="label" value="example" autocomplete="off" style="width:100%;padding:0.45rem 0.6rem;font:inherit;margin:0.35rem 0 0.75rem;background:#0a0e13;color:var(--text);border:1px solid var(--line)">
+  <p>Payload <code id="payload"></code></p>
+  <p>Price <span id="price"></span> KAS → <span class="mono">kaspa:qyp4nvaq3pdq7609z09fvdgwtc9c7rg07fuw5zgeee7xpr085de59eseqfcmynn</span></p>
+  <p>
+    <button id="check" type="button" style="font:inherit;padding:0.45rem 0.8rem;margin-right:0.4rem">1. Check indexer</button>
+    <button id="inscribe" type="button" style="font:inherit;padding:0.45rem 0.8rem">2. Inscribe (KasWare popup)</button>
+  </p>
+  <pre id="log">Install KasWare. Click check, then inscribe.</pre>
+</main>
+<footer>STP-KAS · MIT</footer>
+<script>
+const FEE = "kaspa:qyp4nvaq3pdq7609z09fvdgwtc9c7rg07fuw5zgeee7xpr085de59eseqfcmynn";
+const log = (t) => { document.getElementById("log").textContent = t; };
+function visualLen(s) {
+  return [...s].filter((c) => c !== "\u200d" && c !== "\ufe0f").length || s.length;
+}
+function price(label) {
+  const n = visualLen(label);
+  if (n <= 2) return 4200;
+  if (n === 3) return 2100;
+  if (n === 4) return 525;
+  return 35;
+}
+function paint() {
+  const label = document.getElementById("label").value.trim().toLowerCase();
+  const payload = JSON.stringify({ op: "create", p: "domain", v: label });
+  document.getElementById("payload").textContent = payload;
+  document.getElementById("price").textContent = price(label);
+}
+document.getElementById("label").addEventListener("input", paint);
+paint();
+document.getElementById("check").onclick = async () => {
+  const label = document.getElementById("label").value.trim().toLowerCase();
+  const name = label.endsWith(".kas") ? label : label + ".kas";
+  const address = (window.kasware && (await window.kasware.getAccounts())[0]) || "kaspa:qzt9yuqceqvt2vk9dz7ddzayaa5flnenkymec59xvzm55ln3k72vgecxjhnjp";
+  const res = await fetch("https://api.knsdomains.org/mainnet/api/v1/domains/check", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ domainNames: [name], address }),
+  });
+  log(await res.text());
+};
+document.getElementById("inscribe").onclick = async () => {
+  if (!window.kasware) { log("KasWare not injected."); return; }
+  const label = document.getElementById("label").value.trim().toLowerCase();
+  const payload = JSON.stringify({ op: "create", p: "domain", v: label });
+  const accounts = await window.kasware.requestAccounts();
+  const address = accounts[0];
+  const { script, p2shAddress } = await window.kasware.buildScript({ type: "KNS", data: payload });
+  const entries = await window.kasware.getUtxoEntries();
+  const priceKas = price(label);
+  const result = await window.kasware.submitCommitReveal(
+    { priorityEntries: [], entries, outputs: [{ address: p2shAddress, amount: 1 }], changeAddress: address, priorityFee: 0.01 },
+    { outputs: [{ address: FEE, amount: priceKas }], changeAddress: address, priorityFee: 0.02 },
+    script,
+    "mainnet"
+  );
+  log(JSON.stringify(result, null, 2));
+};
+</script>
+</body>
+</html>

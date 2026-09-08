@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>For the KNS team — inscriptions, KasWare, proven covenants</title>
+  <meta name="description" content="Handoff for the KNS team: KasWare inscription path, indexer uniqueness, and proven mainnet covenant txs on covenants.kaspa.com.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <a class="brand" href="./">KNS implementer kit</a>
+  <nav>
+    <a href="./" aria-current="page">For KNS</a>
+    <a href="protocol.html">Protocol</a>
+    <a href="kasware.html">KasWare</a>
+    <a href="proofs.html">Proofs</a>
+    <a href="https://github.com/STP-KAS/kns-spec">GitHub</a>
+  </nav>
+</header>
+<main>
+  <p class="kicker">Share this URL with the KNS team</p>
+  <h1>What to implement for .kas names after Toccata</h1>
+  <p class="lede">This is a handoff, not a product claim. Official KNS stays the inscription + indexer. Covenants are a second object. We proved both on mainnet.</p>
+
+  <div class="share">
+    <div class="kicker" style="margin:0 0 0.35rem">Public URL</div>
+    <code>https://stp-kas.github.io/kns-spec/</code>
+    <p style="margin:0.6rem 0 0;color:var(--muted);font-size:0.95rem">Source: <a href="https://github.com/STP-KAS/kns-spec">github.com/STP-KAS/kns-spec</a>. Letter: <a href="https://github.com/STP-KAS/kns-spec/blob/main/FOR-KNS.md">FOR-KNS.md</a>.</p>
+  </div>
+
+  <h2>Ask</h2>
+  <ol class="ask">
+    <li><strong>Keep inscribing with KasWare.</strong> <code>buildScript({ type: "KNS" })</code> then <code>submitCommitReveal</code>. Reveal output 0 pays the protocol fee. <a href="kasware.html">Exact calls</a>.</li>
+    <li><strong>Keep uniqueness on the indexer.</strong> First valid reveal wins. Nodes will not reject a second <code>alice.kas</code>. A KIP-20 <code>covenant_id</code> does not encode the label.</li>
+    <li><strong>Treat covenant name UTXOs as optional elevation.</strong> <code>KasName.sil</code> is compiled Silverscript v1-rc1. Own UTXO only. No foreign <code>readInputState</code>.</li>
+  </ol>
+
+  <div class="grid two">
+    <article class="card">
+      <h3>Inscription (live)</h3>
+      <p>Protocol id <code>kns</code>. Commit-reveal envelope. Indexer FCFS. KasWare and Kastle today.</p>
+    </article>
+    <article class="card">
+      <h3>Covenant (proven P2SH)</h3>
+      <p>Unrevealed deploys on <a href="https://covenants.kaspa.com/covenants">covenants.kaspa.com</a>. Script-hash lock. Not consensus uniqueness.</p>
+    </article>
+  </div>
+
+  <h2>Do not mix these</h2>
+  <p><code>trump.kas</code> and <code>bakery.kas</code> already exist as KNS inscriptions owned by other keys. The P2SH rows below are a <em>second</em> object. <code>opus.kas</code> has no inscription. Subnames (<code>opus.dei.kas</code>) are not an inscription op.</p>
+
+  <h2>Proven mainnet</h2>
+  <p>Re-checked 2026-09-08 against <code>api.kaspa.org</code>, <code>api.knsdomains.org</code>, and <code>indexer.kaspa.com</code>. Run <code>go run ./cmd/kns-spec prove</code> to repeat.</p>
+
+  <h3>1. KNS inscription (KasWare envelope)</h3>
+  <p>Reveal script:</p>
+  <pre><code>&lt;xonly_pubkey&gt; OP_CHECKSIG OP_FALSE OP_IF &lt;kns&gt; &lt;0&gt; &lt;{"op":"create","p":"domain","v":"kns"}&gt; OP_ENDIF</code></pre>
+  <div class="wrap">
+    <table>
+      <tr><th>Name</th><td>kns.kas</td></tr>
+      <tr><th>Inscription</th><td class="mono">223233acf8e5abea9291627a5edd859439c4553100c71309b86599f02414a532i0</td></tr>
+      <tr><th>Reveal tx</th><td><a href="https://explorer.kaspa.org/txs/223233acf8e5abea9291627a5edd859439c4553100c71309b86599f02414a532">explorer.kaspa.org</a></td></tr>
+      <tr><th>Owner</th><td class="mono">kaspa:qzt9yuqceqvt2vk9dz7ddzayaa5flnenkymec59xvzm55ln3k72vgecxjhnjp</td></tr>
+    </table>
+  </div>
+  <p>That reveal is a pubkey spend with a <code>kns</code> envelope. It is not a Toccata covenant program. The covenant explorer has no row for it. The KNS indexer does.</p>
+
+  <h3>2. Covenant deploys on covenants.kaspa.com</h3>
+  <p>Action <code>deploy</code>, status <code>unrevealed</code>, identity <code>scriptHashFallback</code> (no KIP-20 id on the UTXO yet).</p>
+  <div class="wrap">
+    <table>
+      <thead>
+        <tr><th>Name</th><th>KAS</th><th>Tx</th><th>Covenant</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>bakery.kas</td><td>0.5</td>
+          <td><a href="https://covenants.kaspa.com/tx/095622d4aa4f46cac8a4012d289ed78a7bd16e9acd47d7e94ee17ae0d601f1ca">095622d4</a></td>
+          <td><a href="https://covenants.kaspa.com/covenants/9baa5cb8f06876c1ba858c844e03d5d02da0419673761d4dea88e21c2432a685">9baa5cb8</a></td>
+        </tr>
+        <tr>
+          <td>michelleobamaisaman.kas</td><td>100</td>
+          <td><a href="https://covenants.kaspa.com/tx/abf7d9e1199e7d3c2fd7121b261aa3284eb062a19e5c2f1afefc0257f2d61c2d">abf7d9e1</a></td>
+          <td><a href="https://covenants.kaspa.com/covenants/f7fbf09ab0c90eb89228528590fa08ca4eb4e1ce73d62db57fb85f5626c69fd6">f7fbf09a</a></td>
+        </tr>
+        <tr>
+          <td>trump.kas</td><td>100</td>
+          <td><a href="https://covenants.kaspa.com/tx/22ca97e171336859031fdc12c649e50711c330a43a7c8350f7038ab75abb1084">22ca97e1</a></td>
+          <td><a href="https://covenants.kaspa.com/covenants/5a13bcd0132897fbd946853544c91ce9c3a57b1c7dfb9ce69c54bb3e745f37b1">5a13bcd0</a></td>
+        </tr>
+        <tr>
+          <td>opus.kas</td><td>100</td>
+          <td><a href="https://covenants.kaspa.com/tx/bb8e054d8cf3f9f75dc99d76910669b48c8cff36d9d1fe1b378a007c653fadf3">bb8e054d</a></td>
+          <td><a href="https://covenants.kaspa.com/covenants/72c55a09aea7f15bfad99d1efc148597bc4eead8fd53d07627f187942d99ea51">72c55a09</a></td>
+        </tr>
+        <tr>
+          <td>opus.dei.kas</td><td>100</td>
+          <td><a href="https://covenants.kaspa.com/tx/34d410ef5df5d75256334f6521c62f1654c624987e5ac0c049ed68c54061e7b7">34d410ef</a></td>
+          <td><a href="https://covenants.kaspa.com/covenants/6f7b81bdf9269b7edf495065630b2ec9c79b6143f27fff0c8101988ca7602084">6f7b81bd</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="warn">
+    Before sending KAS to a resolved .kas name, show the address and require a check. The map is indexer-derived. Transfers cannot be reversed.
+  </div>
+
+  <h2>Implement next</h2>
+  <ol class="ask">
+    <li>Envelope, fees, ops — <a href="protocol.html">protocol.html</a></li>
+    <li>KasWare create/transfer — <a href="kasware.html">kasware.html</a> and <a href="kasware-create.html">working page</a></li>
+    <li>Optional Name UTXO — <a href="https://github.com/STP-KAS/kns-spec/blob/main/contracts/v1/KasName.sil">KasName.sil</a></li>
+  </ol>
+
+  <h2>This is not</h2>
+  <ul>
+    <li>The official KNS app (<a href="https://app.knsdomains.org">app.knsdomains.org</a>, <a href="https://x.com/knsdomain">@knsdomain</a>).</li>
+    <li>A deployed global registrar. No consensus uniqueness for <code>.kas</code>.</li>
+    <li>A seed prompt. Never ask for a seed.</li>
+  </ul>
+</main>
+<footer>
+  STP-KAS · MIT · Inscription protocol belongs to KNS · KasName.sil is silverscript v1-rc1
+</footer>
+</body>
+</html>
