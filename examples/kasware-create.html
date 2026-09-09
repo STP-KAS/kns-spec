@@ -1,26 +1,38 @@
 <!doctype html>
-<meta charset="utf-8">
-<title>KNS create — KasWare</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-  body { font: 16px/1.4 system-ui, sans-serif; max-width: 42rem; margin: 2rem auto; padding: 0 1rem; }
-  code, .mono { font-family: ui-monospace, monospace; font-size: 0.9em; }
-  label { display: block; margin: 1rem 0 0.25rem; }
-  input, button { font: inherit; padding: 0.4rem 0.6rem; }
-  input { width: 100%; box-sizing: border-box; }
-  button { margin-top: 1rem; }
-  pre { background: #111; color: #eee; padding: 1rem; overflow: auto; white-space: pre-wrap; }
-  .warn { background: #fff3cd; padding: 0.75rem 1rem; }
-</style>
-<h1>Create a .kas name with KasWare</h1>
-<p class="warn">This page never asks for a seed. Check availability first. Reveal output 0 pays the KNS fee. Uniqueness is the indexer, not consensus. Verify any resolved address before sending KAS.</p>
-<label>Label (no .kas)</label>
-<input id="label" value="example" autocomplete="off">
-<p>Payload <code id="payload"></code></p>
-<p>Price <span id="price"></span> KAS → <span class="mono">kaspa:qyp4nvaq3pdq7609z09fvdgwtc9c7rg07fuw5zgeee7xpr085de59eseqfcmynn</span></p>
-<button id="check">1. Check indexer</button>
-<button id="inscribe">2. Inscribe (KasWare popup)</button>
-<pre id="log">Install KasWare. Click check, then inscribe.</pre>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Create a .kas name — KasWare</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <a class="brand" href="./">KNS implementer kit</a>
+  <nav>
+    <a href="./">For KNS</a>
+    <a href="protocol.html">Protocol</a>
+    <a href="kasware.html">KasWare</a>
+    <a href="kastle.html">Kastle</a>
+    <a href="proofs.html">Proofs</a>
+    <a href="https://github.com/STP-KAS/kns-spec">GitHub</a>
+  </nav>
+</header>
+<main>
+  <p class="kicker">Working page</p>
+  <h1>Create a .kas name with KasWare</h1>
+  <div class="warn">This page never asks for a seed. Check availability first. Reveal output 0 pays the KNS fee. Uniqueness is the indexer, not consensus. Verify any resolved address before sending KAS.</div>
+  <label for="label">Label (no .kas)</label>
+  <input id="label" value="example" autocomplete="off" style="width:100%;padding:0.45rem 0.6rem;font:inherit;margin:0.35rem 0 0.75rem;background:#0a0e13;color:var(--text);border:1px solid var(--line)">
+  <p>Payload <code id="payload"></code></p>
+  <p>Price <span id="price"></span> KAS → <span class="mono">kaspa:qyp4nvaq3pdq7609z09fvdgwtc9c7rg07fuw5zgeee7xpr085de59eseqfcmynn</span></p>
+  <p>
+    <button id="check" type="button" style="font:inherit;padding:0.45rem 0.8rem;margin-right:0.4rem">1. Check indexer</button>
+    <button id="inscribe" type="button" style="font:inherit;padding:0.45rem 0.8rem">2. Inscribe (KasWare popup)</button>
+  </p>
+  <pre id="log">Install KasWare. Click check, then inscribe.</pre>
+</main>
+<footer>STP-KAS · MIT</footer>
 <script>
 const FEE = "kaspa:qyp4nvaq3pdq7609z09fvdgwtc9c7rg07fuw5zgeee7xpr085de59eseqfcmynn";
 const log = (t) => { document.getElementById("log").textContent = t; };
@@ -42,7 +54,6 @@ function paint() {
 }
 document.getElementById("label").addEventListener("input", paint);
 paint();
-
 document.getElementById("check").onclick = async () => {
   const label = document.getElementById("label").value.trim().toLowerCase();
   const name = label.endsWith(".kas") ? label : label + ".kas";
@@ -54,7 +65,6 @@ document.getElementById("check").onclick = async () => {
   });
   log(await res.text());
 };
-
 document.getElementById("inscribe").onclick = async () => {
   if (!window.kasware) { log("KasWare not injected."); return; }
   const label = document.getElementById("label").value.trim().toLowerCase();
@@ -73,3 +83,5 @@ document.getElementById("inscribe").onclick = async () => {
   log(JSON.stringify(result, null, 2));
 };
 </script>
+</body>
+</html>

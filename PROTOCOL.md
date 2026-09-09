@@ -75,7 +75,7 @@ Before sending KAS to a resolved name, show: the address is indexer-derived, not
 
 ## Profile
 
-Each field is a **separate text inscription** (1 KAS). Fields: avatar, website, banner, x, github, telegram, discord, email, redirectUrl, bio. They follow the domain on transfer.
+Each field is a **separate text inscription** (1 KAS), not a domain JSON op. Fields: avatar, website, banner, x, github, telegram, discord, email, redirectUrl, bio. They follow the domain on transfer. Same envelope, payload is the raw field text (or the value the indexer documents for that key).
 
 ## What inscription KNS cannot do
 

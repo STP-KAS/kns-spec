@@ -2,6 +2,20 @@ package kns
 
 import "testing"
 
+func TestLiveCheckTaken(t *testing.T) {
+	if testing.Short() {
+		t.Skip("live")
+	}
+	c := New("")
+	items, err := c.Check([]string{"kns.kas"}, "")
+	if err != nil {
+		t.Skip(err)
+	}
+	if len(items) == 0 || items[0].Available {
+		t.Fatalf("kns.kas should be taken: %+v", items)
+	}
+}
+
 func TestLiveKnsKas(t *testing.T) {
 	if testing.Short() {
 		t.Skip("live")

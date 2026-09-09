@@ -17,14 +17,15 @@ Sister demo (Web4 UI, not this spec): [STP-KAS/kns](https://github.com/STP-KAS/k
 
 ## Implement this
 
-1. **Inscribe** with KasWare. Exact calls: [`KASWARE.md`](KASWARE.md). Envelope: [`PROTOCOL.md`](PROTOCOL.md).
+1. **Inscribe** with KasWare ([`KASWARE.md`](KASWARE.md)) or Kastle ([`KASTLE.md`](KASTLE.md)). Envelope: [`PROTOCOL.md`](PROTOCOL.md). Check the indexer first.
 2. **Resolve** with `api.knsdomains.org`. URL-encode names. Warn before sending KAS to a resolved address.
-3. **Optional elevate** to a Name UTXO: compile [`contracts/v1/KasName.sil`](contracts/v1/KasName.sil). Own-UTXO only. No `readInputState` of a foreign covenant on silverscript `v1-rc1`.
+3. **Optional elevate** to a Name UTXO: compile [`contracts/v1/KasName.sil`](contracts/v1/KasName.sil) (`SILVERC` or `silverc` on PATH). Own-UTXO only. No `readInputState` of a foreign covenant on silverscript `v1-rc1`.
 
 ```powershell
 go test ./...
 go run ./cmd/kns-spec prove
-go run ./cmd/kns-spec envelope create example
+go run ./cmd/kns-spec check kns.kas
+go run ./cmd/kns-spec plan example
 go run ./cmd/kns-spec resolve kns.kas
 ```
 

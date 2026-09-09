@@ -20,6 +20,16 @@ func main() {
 	switch args[0] {
 	case "prove":
 		prove()
+	case "check":
+		if len(args) < 2 {
+			fail("usage: kns-spec check name.kas")
+		}
+		check(args[1])
+	case "plan":
+		if len(args) < 2 {
+			fail("usage: kns-spec plan <label>")
+		}
+		plan(args[1])
 	case "envelope":
 		if len(args) < 3 {
 			fail("usage: kns-spec envelope create|transfer|list|send …")
@@ -40,6 +50,8 @@ func usage() {
 	fmt.Fprint(os.Stderr, `kns-spec — implementer kit for KNS inscriptions + proven covenants
 
   kns-spec prove
+  kns-spec check <name.kas>
+  kns-spec plan <label>
   kns-spec envelope create <label>
   kns-spec envelope transfer <inscriptionId> <kaspa:addr>
   kns-spec envelope list <inscriptionId>
@@ -102,10 +114,59 @@ func envelop(op string, args []string) {
 	}
 }
 
-func resolve(name string) {
-	if !strings.HasSuffix(strings.ToLower(name), ".kas") {
+func check(name string) {
+	name = withKas(name)
+	c := kns.New("")
+	items, err := c.Check([]string{name}, "")
+	if err != nil {
+		fail(err.Error())
+	}
+	enc := json.NewEncoder(os.Stdout)
+	enc.SetIndent("", "  ")
+	_ = enc.Encode(items)
+}
+
+func plan(label string) {
+	payload, err := envelope.Create(label)
+	if err != nil {
+		fail(err.Error())
+	}
+	name := withKas(label)
+	c := kns.New("")
+	items, err := c.Check([]string{name}, "")
+	avail := "unknown"
+	if err == nil && len(items) > 0 {
+		if items[0].Available {
+			avail = "available"
+		} else {
+			avail = "taken"
+		}
+		if items[0].IsReservedDomain {
+			avail += " (reserved)"
+		}
+	} else if err != nil {
+		avail = "check error: " + err.Error()
+	}
+	fmt.Println(string(payload))
+	fmt.Println(envelope.ScriptSketch(payload))
+	fmt.Printf("name     %s\n", name)
+	fmt.Printf("price    %d KAS\n", envelope.PriceKAS(label))
+	fmt.Printf("fee to   %s (reveal output 0)\n", envelope.FeeAddress("mainnet"))
+	fmt.Printf("indexer  %s\n", avail)
+	fmt.Println("KasWare  buildScript({ type: \"KNS\", data }) then submitCommitReveal")
+	fmt.Println("Kastle   connect(); commitReveal(\"mainnet\", \"kns\", data) — two popups")
+}
+
+func withKas(name string) string {
+	name = strings.TrimSpace(strings.ToLower(name))
+	if !strings.HasSuffix(name, ".kas") {
 		name += ".kas"
 	}
+	return name
+}
+
+func resolve(name string) {
+	name = withKas(name)
 	c := kns.New("")
 	own, err := c.Owner(name)
 	if err != nil {

@@ -80,4 +80,6 @@ If `available` is false, do not inscribe. The fee is still paid on a losing reve
 
 ## Working page
 
-[`examples/kasware-create.html`](examples/kasware-create.html) — open as a local file or any https origin KasWare allows. It never asks for a seed.
+Hosted: [kasware-create.html](https://stp-kas.github.io/kns-spec/kasware-create.html). Local copy: [`examples/kasware-create.html`](examples/kasware-create.html). Never asks for a seed.
+
+Kastle (two popups, namespace `kns`): [`KASTLE.md`](KASTLE.md).
