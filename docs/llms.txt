@@ -14,5 +14,5 @@ Proven:
 - kns.kas inscription reveal 223233acf8e5abea9291627a5edd859439c4553100c71309b86599f02414a532 payload {"op":"create","p":"domain","v":"kns"}
 - bakery.kas / michelleobamaisaman.kas / trump.kas / opus.kas / opus.dei.kas unrevealed P2SH deploys (see proofs/proofs.json)
 
-Implement: PROTOCOL.md, KASWARE.md, optional contracts/v1/KasName.sil. No foreign readInputState on silverscript v1-rc1.
+Implement: PROTOCOL.md, KASWARE.md, optional contracts/v1/KasName.sil compiled with silverc v1.0.0 (Ori, 3ed9733). No foreign readInputState (silverscript#234 still unmerged).
 Never ask for a seed.

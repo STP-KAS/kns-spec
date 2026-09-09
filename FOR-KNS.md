@@ -10,7 +10,7 @@ This is a handoff, not a fork of your product and not a claim that covenants alr
 
 1. **Keep inscribing with KasWare or Kastle.** KasWare: `buildScript({ type: "KNS", data })` then `submitCommitReveal`. Kastle: `commitReveal("mainnet", "kns", data)` — two popups. Reveal output 0 still pays your protocol fee address. Kastle’s high-level `commitReveal` does not document that fee output; the official inscribe tool must attach it.
 2. **Keep uniqueness on the indexer.** First valid reveal wins. Consensus will not reject a second `alice.kas`. A KIP-20 `covenant_id` is hashed from an outpoint. It does not encode the label.
-3. **Treat a Name UTXO as optional elevation.** `contracts/v1/KasName.sil` is Silverscript `v1-rc1`. Own UTXO only. Do not `readInputState` a foreign covenant ([silverscript#234](https://github.com/kaspanet/silverscript/pull/234) closed unmerged).
+3. **Treat a Name UTXO as optional elevation.** `contracts/v1/KasName.sil` is compiled with official **Silverscript v1.0.0** (Ori, 9 Sep 2026, `3ed9733`). Own UTXO only. Do not `readInputState` a foreign covenant ([silverscript#234](https://github.com/kaspanet/silverscript/pull/234) still closed unmerged).
 
 ## Two objects. Do not mix them.
 
