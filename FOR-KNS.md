@@ -8,7 +8,7 @@ This is a handoff, not a fork of your product and not a claim that covenants alr
 
 ## What we are asking you to implement
 
-1. **Keep inscribing with KasWare.** `window.kasware.buildScript({ type: "KNS", data })` then `submitCommitReveal`. Reveal output 0 pays your protocol fee address.
+1. **Keep inscribing with KasWare or Kastle.** KasWare: `buildScript({ type: "KNS", data })` then `submitCommitReveal`. Kastle: `commitReveal("mainnet", "kns", data)` — two popups. Reveal output 0 still pays your protocol fee address. Kastle’s high-level `commitReveal` does not document that fee output; the official inscribe tool must attach it.
 2. **Keep uniqueness on the indexer.** First valid reveal wins. Consensus will not reject a second `alice.kas`. A KIP-20 `covenant_id` is hashed from an outpoint. It does not encode the label.
 3. **Treat a Name UTXO as optional elevation.** `contracts/v1/KasName.sil` is Silverscript `v1-rc1`. Own UTXO only. Do not `readInputState` a foreign covenant ([silverscript#234](https://github.com/kaspanet/silverscript/pull/234) closed unmerged).
 
@@ -56,6 +56,7 @@ Re-check: `go run ./cmd/kns-spec prove`
 - https://stp-kas.github.io/kns-spec/ — this letter
 - https://stp-kas.github.io/kns-spec/protocol.html — envelope, fees, indexer
 - https://stp-kas.github.io/kns-spec/kasware.html — KasWare calls
+- https://stp-kas.github.io/kns-spec/kastle.html — Kastle calls (fee output 0 still required)
 - https://stp-kas.github.io/kns-spec/kasware-create.html — working inscribe page
 - https://stp-kas.github.io/kns-spec/proofs.html — txs
 

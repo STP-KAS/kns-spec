@@ -62,6 +62,34 @@ type Asset struct {
 	Status        string `json:"status"`
 }
 
+type CheckItem struct {
+	Domain           string `json:"domain"`
+	Available        bool   `json:"available"`
+	IsReservedDomain bool   `json:"isReservedDomain"`
+}
+
+const CheckDummy = "kaspa:qzt9yuqceqvt2vk9dz7ddzayaa5flnenkymec59xvzm55ln3k72vgecxjhnjp"
+
+func (c *Client) Check(names []string, address string) ([]CheckItem, error) {
+	if address == "" {
+		address = CheckDummy
+	}
+	var env Envelope[struct {
+		Domains []CheckItem `json:"domains"`
+	}]
+	err := c.Post("/api/v1/domains/check", map[string]any{
+		"domainNames": names,
+		"address":     address,
+	}, &env)
+	if err != nil {
+		return nil, err
+	}
+	if !env.Success {
+		return nil, fmt.Errorf("check failed: %s", env.Message)
+	}
+	return env.Data.Domains, nil
+}
+
 func (c *Client) Asset(name string) (*Asset, error) {
 	q := url.Values{}
 	q.Set("asset", name)

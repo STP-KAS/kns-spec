@@ -6,7 +6,7 @@ Letter: https://github.com/STP-KAS/kns-spec/blob/main/FOR-KNS.md
 
 Two objects. Do not mix them.
 
-- Inscription: protocol id kns, commit-reveal, uniqueness = official indexer FCFS, wallet = KasWare buildScript type KNS.
+- Inscription: protocol id kns, commit-reveal, uniqueness = official indexer FCFS. KasWare: buildScript type KNS. Kastle: commitReveal namespace kns (two popups). Reveal output 0 = protocol fee. Check POST /api/v1/domains/check first.
 - Covenant: P2SH of KasName.sil, unrevealed deploys on https://covenants.kaspa.com/covenants. Not consensus uniqueness. KIP-20 covenant_id is from an outpoint, not the label.
 
 Proven:

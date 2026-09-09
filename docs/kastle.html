@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kastle — inscribe a .kas name</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <a class="brand" href="./">KNS implementer kit</a>
+  <nav>
+    <a href="./">For KNS</a>
+    <a href="protocol.html">Protocol</a>
+    <a href="kasware.html">KasWare</a>
+    <a href="kastle.html" aria-current="page">Kastle</a>
+    <a href="proofs.html">Proofs</a>
+    <a href="https://github.com/STP-KAS/kns-spec">GitHub</a>
+  </nav>
+</header>
+<main>
+  <p class="kicker">window.kastle</p>
+  <h1>Inscribe a .kas name with Kastle</h1>
+  <p class="lede">Vendor: <a href="https://docs.kastle.cc/readme/how-to-integrate/kastle-wallet-api.md">Kastle Wallet API</a>. Chrome, iOS, Android. Official KNS tutorial: two confirmations (commit, then reveal).</p>
+
+  <h2>Connect</h2>
+  <pre><code>const ok = await window.kastle.connect();
+const { address, publicKey } = await window.kastle.getAccount();
+const network = await window.kastle.getNetwork(); // "mainnet"</code></pre>
+
+  <h2>Create example.kas</h2>
+  <p><code>commitReveal(networkId, namespace, data)</code> writes <code>namespace</code> as the envelope protocol id. KNS uses <code>"kns"</code>. KRC-20 uses <code>"kasplex"</code>.</p>
+  <pre><code>const payload = JSON.stringify({ op: "create", p: "domain", v: "example" });
+const { commitTxId, revealTxId } = await window.kastle.commitReveal(
+  "mainnet",
+  "kns",
+  payload
+);</code></pre>
+  <p>Two popups. Expected.</p>
+
+  <div class="warn">
+    KNS reveal <strong>output 0</strong> must pay <span class="mono">kaspa:qyp4nvaq3pdq7609z09fvdgwtc9c7rg07fuw5zgeee7xpr085de59eseqfcmynn</span>.
+    Kastle <code>commitReveal</code> only documents priority fees. It does not document a custom fee output.
+    If output 0 is not the protocol address, the indexer will not verify the domain. Use the official inscribe tool, or build the reveal so output 0 is the fee.
+  </div>
+
+  <h2>Transfer</h2>
+  <pre><code>{"op":"transfer","p":"domain","id":"&lt;inscriptionId&gt;","to":"kaspa:q…"}</code></pre>
+  <p>Same namespace <code>kns</code>.</p>
+</main>
+<footer>STP-KAS · MIT · Kastle API belongs to Kastle</footer>
+</body>
+</html>
