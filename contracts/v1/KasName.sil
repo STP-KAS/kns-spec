@@ -1,8 +1,11 @@
 pragma silverscript ^0.1.0;
 
-// Compiled with official silverc v1-rc1
-// https://github.com/kaspanet/silverscript/releases/tag/v1-rc1
-// Ori Newman @OriNewman 30 Aug 2026. RC, not a tagged v1.
+// Compiled with official silverc v1.0.0
+// https://github.com/kaspanet/silverscript/releases/tag/v1.0.0
+// Ori Newman @OriNewman 9 Sep 2026, commit 3ed9733.
+// Windows zip SHA256 3e0d660c15a9e7ac90f3960da24d348b076b1891481bfe758db18accc8a102e1
+// Language pragma in official examples is still ^0.1.0.
+// KasName template_hash is unchanged from v1-rc1 for this source.
 //
 // Uniqueness of the *label* is still not consensus. This UTXO carries owner +
 // labelHash + kasPkh + vaultCommit. A registrar must mint it.
