@@ -19,6 +19,8 @@ Sister demo (Web4 UI, not this spec): [STP-KAS/kns](https://github.com/STP-KAS/k
 
 Official docs: [inscriptions](https://kns-2.gitbook.io/kns-docs-1/inscriptions/overview) · [wallets](https://kns-2.gitbook.io/kns-docs-1/supporting-wallet) · [indexer API](https://kns-2.gitbook.io/kns-docs-1/kns-indexer-api) · [simply-kaspa-indexer](https://github.com/supertypo/simply-kaspa-indexer)
 
+**Beyond the chain:** [`OVERLAY.md`](OVERLAY.md) — `kns://alice.kas` as a name-addressed internet (settle on Kaspa, run the dApp locally, session without ICANN/CAs).
+
 1. **Inscribe** with a [supporting wallet](WALLETS.md). KasWare ([`KASWARE.md`](KASWARE.md)) or Kastle **extension** ([`KASTLE.md`](KASTLE.md)). Kastle **mobile cannot inscribe**. Envelope: [`PROTOCOL.md`](PROTOCOL.md). Check the indexer first ([`INDEXER.md`](INDEXER.md)).
 2. **Resolve** with `api.knsdomains.org`. URL-encode names. Warn before sending KAS to a resolved address.
 3. **Optional elevate** to a Name UTXO: compile [`contracts/v1/KasName.sil`](contracts/v1/KasName.sil) with official **silverc v1.0.0** (Ori, 9 Sep 2026). Own-UTXO only. Continuation keeps the same sompi (fees from a sibling input). No `readInputState` of a foreign covenant ([silverscript#234](https://github.com/kaspanet/silverscript/pull/234) still unmerged). Battle-test notes: [`BATTLETEST.md`](BATTLETEST.md).
