@@ -19,7 +19,7 @@ Sister demo (Web4 UI, not this spec): [STP-KAS/kns](https://github.com/STP-KAS/k
 
 1. **Inscribe** with KasWare ([`KASWARE.md`](KASWARE.md)) or Kastle ([`KASTLE.md`](KASTLE.md)). Envelope: [`PROTOCOL.md`](PROTOCOL.md). Check the indexer first.
 2. **Resolve** with `api.knsdomains.org`. URL-encode names. Warn before sending KAS to a resolved address.
-3. **Optional elevate** to a Name UTXO: compile [`contracts/v1/KasName.sil`](contracts/v1/KasName.sil) with official **silverc v1.0.0** (Ori, 9 Sep 2026). Own-UTXO only. No `readInputState` of a foreign covenant ([silverscript#234](https://github.com/kaspanet/silverscript/pull/234) still unmerged).
+3. **Optional elevate** to a Name UTXO: compile [`contracts/v1/KasName.sil`](contracts/v1/KasName.sil) with official **silverc v1.0.0** (Ori, 9 Sep 2026). Own-UTXO only. Continuation keeps the same sompi (fees from a sibling input). No `readInputState` of a foreign covenant ([silverscript#234](https://github.com/kaspanet/silverscript/pull/234) still unmerged). Battle-test notes: [`BATTLETEST.md`](BATTLETEST.md).
 
 ```powershell
 go test ./...
@@ -75,4 +75,4 @@ Machine-readable: [`proofs/proofs.json`](proofs/proofs.json). Re-check: `go run 
 
 ## License
 
-MIT. Inscription protocol belongs to KNS. `KasName.sil` is compiled with official **silverc v1.0.0** (`3ed9733`, Ori / someone235). Template hash matches the v1-rc1 build of this contract. Windows zip SHA256 `3e0d660c15a9e7ac90f3960da24d348b076b1891481bfe758db18accc8a102e1`.
+MIT. Inscription protocol belongs to KNS. `KasName.sil` is compiled with official **silverc v1.0.0** (`3ed9733`, Ori / someone235). Template hash `8f2a7f691e2e4172da7e97865c1350b14e357f9e9668d46d32b073ec642e67f0` after value-conservation. Windows zip SHA256 `3e0d660c15a9e7ac90f3960da24d348b076b1891481bfe758db18accc8a102e1`.
