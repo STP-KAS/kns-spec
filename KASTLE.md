@@ -1,6 +1,6 @@
 # Kastle: inscribe a .kas name
 
-KNS’s other supporting wallet. Inject: `window.kastle`. Chrome extension, iOS, Android. Docs: [Kastle Wallet API](https://docs.kastle.cc/readme/how-to-integrate/kastle-wallet-api.md). Official KNS tutorial: two popups (commit, then reveal).
+Official KNS [supporting wallet](https://kns-2.gitbook.io/kns-docs-1/supporting-wallet): **extension can inscribe**; **mobile cannot**. Inject: `window.kastle`. Docs: [Kastle Wallet API](https://docs.kastle.cc/readme/how-to-integrate/kastle-wallet-api.md). Official KNS tutorial: two popups (commit, then reveal). KNS does not support ECDSA addresses.
 
 Do not call `connect()` on page load. User click only.
 

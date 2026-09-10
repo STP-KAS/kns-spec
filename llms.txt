@@ -2,6 +2,10 @@
 
 Share URL: https://stp-kas.github.io/kns-spec/
 Repo: https://github.com/STP-KAS/kns-spec
+Official KNS: https://kns-2.gitbook.io/kns-docs-1/inscriptions/overview
+Wallets: https://kns-2.gitbook.io/kns-docs-1/supporting-wallet
+Indexer API: https://kns-2.gitbook.io/kns-docs-1/kns-indexer-api
+L1 indexer: https://github.com/supertypo/simply-kaspa-indexer
 Letter: https://github.com/STP-KAS/kns-spec/blob/main/FOR-KNS.md
 
 Two objects. Do not mix them.

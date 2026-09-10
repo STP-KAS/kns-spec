@@ -1,6 +1,15 @@
 # Inscription protocol
 
-Source of truth: [KNS docs](https://kns-2.gitbook.io/kns-docs-1/inscriptions/overview). This file is the copy a wallet/indexer can implement without hunting.
+Source of truth (official):
+
+- Inscriptions: https://kns-2.gitbook.io/kns-docs-1/inscriptions/overview
+- Ops: https://kns-2.gitbook.io/kns-docs-1/inscriptions/operations
+- Indexer API: https://kns-2.gitbook.io/kns-docs-1/kns-indexer-api
+- Integration: https://kns-2.gitbook.io/kns-docs-1/kns-indexer-api/integration-important-note
+- Wallets: https://kns-2.gitbook.io/kns-docs-1/supporting-wallet
+- L1 indexer used by the resolver: https://github.com/supertypo/simply-kaspa-indexer
+
+This file is the copy a wallet can implement without hunting. Wallets: [`WALLETS.md`](WALLETS.md). Indexers: [`INDEXER.md`](INDEXER.md).
 
 ## Envelope
 
@@ -52,7 +61,15 @@ Pay the protocol address **as output 0 of the reveal**.
 | 5+ | 35 |
 | text inscription | 1 |
 
-No renewal. First-come, first-served. Check availability **before** inscribing:
+No renewal. First-come, first-served. Check availability **before** inscribing.
+
+Wallet must hold extra KAS or inscribe fails “insufficient funds”: **domain × 1.05**, **text × 2** (unused extra is refunded).
+
+Numeric clubs (official): 99 = `0.kas`–`99.kas` (leading zeros excluded except `0.kas`); 999 = `100`–`999`; 10k = `1000`–`9999`.
+
+Reserved list (launch merkle root `09f78e4cc57ef2837e2d364b359f88da58c19b64cd79cdb1655b996ef14afcf7`): https://kns-2.gitbook.io/kns-docs-1/others/reserved-list
+
+KNS does **not** support ECDSA addresses.
 
 `POST https://api.knsdomains.org/mainnet/api/v1/domains/check` `{ "domainNames": ["example.kas"], "address": "<payer>" }`
 
@@ -79,7 +96,7 @@ Each field is a **separate text inscription** (1 KAS), not a domain JSON op. Fie
 
 ## What inscription KNS cannot do
 
-- Subnames (`pay.shop.kas`). Create takes one label.
+- Hierarchical subnames. L1 **will** inscribe multi-dot strings (`abc.def.kas`) as a **flat** asset. Official FAQ: that is not a parent-child subdomain. Only a later contract registrar can issue real subnames from `def.kas`.
 - Consensus uniqueness. A second valid reveal for the same label is ignored by the indexer, not rejected by nodes.
 - Store records in a UTXO. That is the covenant layer (`KasName.sil`).
 
