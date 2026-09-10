@@ -2,6 +2,8 @@
 
 **Share this URL:** https://stp-kas.github.io/kns-spec/
 
+Official KNS (not us): [inscriptions](https://kns-2.gitbook.io/kns-docs-1/inscriptions/overview) · [wallets](https://kns-2.gitbook.io/kns-docs-1/supporting-wallet) · [indexer API](https://kns-2.gitbook.io/kns-docs-1/kns-indexer-api) · [simply-kaspa-indexer](https://github.com/supertypo/simply-kaspa-indexer)
+
 Repo: https://github.com/STP-KAS/kns-spec
 
 This is a handoff, not a fork of your product and not a claim that covenants already unique `.kas` names.

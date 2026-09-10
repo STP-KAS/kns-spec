@@ -61,9 +61,37 @@ func TestPrice(t *testing.T) {
 	}
 }
 
-func TestRejectSubname(t *testing.T) {
-	if _, err := Create("pay.shop"); err == nil {
-		t.Fatal("subname must not be a create payload")
+func TestMultiDotL1(t *testing.T) {
+	b, err := Create("abc.def")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if string(b) != `{"op":"create","p":"domain","v":"abc.def"}` {
+		t.Fatalf("got %s", b)
+	}
+	if _, err := Create(".abc"); err == nil {
+		t.Fatal("empty segment")
+	}
+}
+
+func TestClub(t *testing.T) {
+	if Club("0") != "99" || Club("7") != "99" || Club("99") != "99" {
+		t.Fatal("99")
+	}
+	if Club("01") != "" || Club("100") != "999" || Club("1000") != "10k" {
+		t.Fatal("leading zero / 999 / 10k")
+	}
+	if Club("abc.def") != "" {
+		t.Fatal("multi-dot is not a numeric club")
+	}
+}
+
+func TestWalletNeed(t *testing.T) {
+	if WalletNeedKAS(35, false) != 36.75 {
+		t.Fatal("domain 1.05")
+	}
+	if WalletNeedKAS(1, true) != 2 {
+		t.Fatal("text 2x")
 	}
 }
 

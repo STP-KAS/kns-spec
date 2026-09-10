@@ -1,6 +1,6 @@
 # KasWare: inscribe a .kas name
 
-Docs: [buildScript](https://docs.kasware.xyz/wallet/developer-documentation/kaspa/kaspa-krc20) (KRC-20 page also covers KNS). Inject: `window.kasware`. Chrome extension + Android APK. Not iOS.
+Official KNS [supporting wallet](https://kns-2.gitbook.io/kns-docs-1/supporting-wallet): KasWare **extension** inscribes and transfers `.kas`. KNS does **not** support ECDSA addresses. Docs: [buildScript](https://docs.kasware.xyz/wallet/developer-documentation/kaspa/kaspa-krc20) (KRC-20 page also covers KNS). Inject: `window.kasware`. Chrome extension + Android APK. Not iOS.
 
 Do not call `requestAccounts()` on page load. User click only.
 

@@ -152,6 +152,10 @@ func plan(label string) {
 	fmt.Printf("name     %s\n", name)
 	fmt.Printf("labelHash %s  (sha256 kns/v1/ + label)\n", envelope.LabelHashHex(label))
 	fmt.Printf("price    %d KAS\n", envelope.PriceKAS(label))
+	fmt.Printf("wallet   ≥ %.2f KAS (official 5%% extra for domain inscribe)\n", envelope.WalletNeedKAS(envelope.PriceKAS(label), false))
+	if c := envelope.Club(label); c != "" {
+		fmt.Printf("club     %s\n", c)
+	}
 	fmt.Printf("fee to   %s (reveal output 0)\n", envelope.FeeAddress("mainnet"))
 	fmt.Printf("indexer  %s\n", avail)
 	fmt.Println("KasWare  buildScript({ type: \"KNS\", data }) then submitCommitReveal")

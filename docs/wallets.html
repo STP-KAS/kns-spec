@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KNS supporting wallets</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <a class="brand" href="./">KNS implementer kit</a>
+  <nav>
+    <a href="./">For KNS</a>
+    <a href="protocol.html">Protocol</a>
+    <a href="kasware.html">KasWare</a>
+    <a href="kastle.html">Kastle</a>
+    <a href="wallets.html" aria-current="page">Wallets</a>
+    <a href="proofs.html">Proofs</a>
+    <a href="https://github.com/STP-KAS/kns-spec">GitHub</a>
+  </nav>
+</header>
+<main>
+  <p class="kicker">Official table</p>
+  <h1>Supporting wallets</h1>
+  <p class="lede">Source: <a href="https://kns-2.gitbook.io/kns-docs-1/supporting-wallet">KNS supporting wallet</a>. FAQ still says “only KasWare” in places — use this table.</p>
+  <div class="wrap">
+    <table>
+      <thead><tr><th>Wallet</th><th>Type</th><th>Inscribe</th><th>Transfer .kas</th></tr></thead>
+      <tbody>
+        <tr><td>KasWare</td><td>Extension</td><td>yes</td><td>KAS, KRC-20, KRC-721, domain, text</td></tr>
+        <tr><td>Kastle</td><td>Extension</td><td>yes (2 popups)</td><td>KAS, KRC-20, KRC-721, domain</td></tr>
+        <tr><td>Kastle</td><td>Mobile</td><td><strong>no</strong></td><td>KAS, KRC-20, KRC-721 (can <em>receive</em> .kas)</td></tr>
+        <tr><td>Kurncy</td><td>Mobile</td><td>yes, in-app</td><td>KAS, KRC-20, KRC-721, domain</td></tr>
+        <tr><td>Kasanova</td><td>Mobile</td><td>yes, in-app</td><td>KAS, KRC-20, KRC-721, domain</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="warn">
+    Receiving wallet must be a supporting wallet or the domain is not visible and cannot be transferred out.
+    KNS does not support ECDSA addresses.
+    Always show the resolved kaspa: address before send.
+  </div>
+  <p>dApp inject on the open web: KasWare and Kastle <em>extension</em> only. See <a href="kasware.html">KasWare</a> and <a href="kastle.html">Kastle</a>.</p>
+</main>
+<footer>STP-KAS · MIT · Table belongs to KNS</footer>
+</body>
+</html>
