@@ -37,6 +37,7 @@
     <li><strong>Keep inscribing with KasWare or Kastle.</strong> KasWare: <code>buildScript({ type: "KNS" })</code> then <code>submitCommitReveal</code>. Kastle: <code>commitReveal("mainnet", "kns", data)</code> (two popups). Reveal output 0 pays the protocol fee. <a href="kasware.html">KasWare</a> · <a href="kastle.html">Kastle</a>.</li>
     <li><strong>Keep uniqueness on the indexer.</strong> First valid reveal wins. Nodes will not reject a second <code>alice.kas</code>. A KIP-20 <code>covenant_id</code> does not encode the label.</li>
     <li><strong>Treat covenant name UTXOs as optional elevation.</strong> <code>KasName.sil</code> is compiled with official Silverscript <strong>v1.0.0</strong> (Ori, 9 Sep 2026). Own UTXO only. Continuation keeps the same sompi; pay fees from a sibling input. No foreign <code>readInputState</code>. Argent is the multi-actor layer above this and is not release-ready.</li>
+    <li><strong>Optional overlay.</strong> Publish <code>ipfs</code>/<code>peer</code>/<code>onion</code> so <code>kns://alice.kas</code> runs a dApp locally without ICANN. <a href="overlay.html">overlay.html</a>.</li>
   </ol>
 
   <div class="grid two">

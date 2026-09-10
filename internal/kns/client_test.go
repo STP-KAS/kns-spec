@@ -38,4 +38,11 @@ func TestLiveKnsKas(t *testing.T) {
 	if a.TransactionID != "223233acf8e5abea9291627a5edd859439c4553100c71309b86599f02414a532" {
 		t.Fatalf("txid %s", a.TransactionID)
 	}
+	p, err := c.Profile(own.AssetID)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if p.Profile["x"] != "knsdomain" {
+		t.Fatalf("profile %+v", p.Profile)
+	}
 }

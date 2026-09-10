@@ -90,6 +90,27 @@ func (c *Client) Check(names []string, address string) ([]CheckItem, error) {
 	return env.Data.Domains, nil
 }
 
+type Profile struct {
+	AssetID string         `json:"assetId"`
+	Owner   string         `json:"owner"`
+	Name    string         `json:"name"`
+	TLD     string         `json:"tld"`
+	Profile map[string]any `json:"profile"`
+}
+
+func (c *Client) Profile(assetID string) (*Profile, error) {
+	var env Envelope[Profile]
+	keys := "redirectUrl,bio,avatarUrl,website,x,github,telegram,discord,email,banner"
+	path := "/api/v1/domain/" + url.PathEscape(assetID) + "/profile?keys=" + url.QueryEscape(keys)
+	if err := c.get(path, &env); err != nil {
+		return nil, err
+	}
+	if !env.Success {
+		return nil, fmt.Errorf("profile failed: %s", env.Message)
+	}
+	return &env.Data, nil
+}
+
 func (c *Client) Asset(name string) (*Asset, error) {
 	q := url.Values{}
 	q.Set("asset", name)

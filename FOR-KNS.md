@@ -13,6 +13,7 @@ This is a handoff, not a fork of your product and not a claim that covenants alr
 1. **Keep inscribing with KasWare or Kastle.** KasWare: `buildScript({ type: "KNS", data })` then `submitCommitReveal`. Kastle: `commitReveal("mainnet", "kns", data)` — two popups. Reveal output 0 still pays your protocol fee address. Kastle’s high-level `commitReveal` does not document that fee output; the official inscribe tool must attach it.
 2. **Keep uniqueness on the indexer.** First valid reveal wins. Consensus will not reject a second `alice.kas`. A KIP-20 `covenant_id` is hashed from an outpoint. It does not encode the label.
 3. **Treat a Name UTXO as optional elevation.** `contracts/v1/KasName.sil` is compiled with official **Silverscript v1.0.0** (Ori, 9 Sep 2026, `3ed9733`). Own UTXO only. Continuation keeps the same sompi (fees from a sibling input). Do not `readInputState` a foreign covenant. Argent is Sutton’s multi-actor layer **above** this and is not release-ready. Notes: [BATTLETEST.md](BATTLETEST.md).
+4. **Optional overlay records** (`peer`, `onion`, `ipfs`, `kfs`) so `kns://alice.kas` can load a dApp without ICANN. Spec: [OVERLAY.md](OVERLAY.md). Not your L2. Not a new chain.
 
 ## Two objects. Do not mix them.
 

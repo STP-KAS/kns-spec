@@ -8,6 +8,7 @@ import (
 
 	"github.com/STP-KAS/kns-spec/internal/envelope"
 	"github.com/STP-KAS/kns-spec/internal/kns"
+	"github.com/STP-KAS/kns-spec/internal/overlay"
 	"github.com/STP-KAS/kns-spec/internal/proof"
 )
 
@@ -40,6 +41,11 @@ func main() {
 			fail("usage: kns-spec resolve name.kas")
 		}
 		resolve(args[1])
+	case "overlay":
+		if len(args) < 2 {
+			fail("usage: kns-spec overlay name.kas")
+		}
+		overlayCmd(args[1])
 	default:
 		usage()
 		os.Exit(2)
@@ -57,6 +63,7 @@ func usage() {
   kns-spec envelope list <inscriptionId>
   kns-spec envelope send <inscriptionId>
   kns-spec resolve <name.kas>
+  kns-spec overlay <name.kas>
 `)
 }
 
@@ -187,6 +194,37 @@ func resolve(name string) {
 	if a != nil {
 		out["txid"] = a.TransactionID
 		out["explorer"] = "https://explorer.kaspa.org/txs/" + a.TransactionID
+	}
+	enc := json.NewEncoder(os.Stdout)
+	enc.SetIndent("", "  ")
+	_ = enc.Encode(out)
+}
+
+func overlayCmd(name string) {
+	name = withKas(name)
+	c := kns.New("")
+	own, err := c.Owner(name)
+	if err != nil {
+		fail(err.Error())
+	}
+	rec := overlay.Records{KAS: own.Owner}
+	if p, err := c.Profile(own.AssetID); err == nil && p != nil {
+		got := overlay.FromMap(p.Profile)
+		got.KAS = own.Owner
+		rec = got
+	}
+	out := map[string]any{
+		"name":    name,
+		"owner":   own.Owner,
+		"id":      own.AssetID,
+		"kns":     overlay.URI(name, ""),
+		"pay":     overlay.URI(name, "pay"),
+		"peer":    overlay.URI(name, "peer"),
+		"address": rec.PayAddress(),
+		"app":     rec.App(),
+		"session": rec.Session(),
+		"private": rec.Private(),
+		"warn":    "Indexer resolution. Verify the address before sending. https://alice.kas.limo leaks DNS. kns:// does not need ICANN.",
 	}
 	enc := json.NewEncoder(os.Stdout)
 	enc.SetIndent("", "  ")
