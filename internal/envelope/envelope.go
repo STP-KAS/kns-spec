@@ -2,6 +2,7 @@
 package envelope
 
 import (
+	"crypto/sha256"
 	"encoding/json"
 	"fmt"
 	"regexp"
@@ -119,6 +120,21 @@ func ValidLabel(label string) bool {
 		}
 	}
 	return true
+}
+
+// LabelHash is the 32-byte constructor arg for KasName.sil.
+// Not ENS namehash (no recursive parent node). Normalize like KNS: ASCII
+// lower-case, no ".kas". Prefix pins the domain so two implementations match.
+func LabelHash(label string) [32]byte {
+	label = strings.ToLower(strings.TrimSpace(label))
+	label = strings.TrimSuffix(label, ".kas")
+	sum := sha256.Sum256([]byte("kns/v1/" + label))
+	return sum
+}
+
+func LabelHashHex(label string) string {
+	h := LabelHash(label)
+	return fmt.Sprintf("%x", h[:])
 }
 
 func FeeAddress(network string) string {

@@ -82,3 +82,7 @@ Each field is a **separate text inscription** (1 KAS), not a domain JSON op. Fie
 - Subnames (`pay.shop.kas`). Create takes one label.
 - Consensus uniqueness. A second valid reveal for the same label is ignored by the indexer, not rejected by nodes.
 - Store records in a UTXO. That is the covenant layer (`KasName.sil`).
+
+## Covenant name UTXO (optional)
+
+`KasName.sil` is **Silverscript v1.0.0**, one contract (not Argent). Constructor: owner pubkey + `sha256("kns/v1/" || label)`. Continuation **keeps the same sompi**; pay miner fees from a sibling P2PK input. `validateOutputState` does not lock amount by itself (official v1 tutorial).

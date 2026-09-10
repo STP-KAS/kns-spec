@@ -75,6 +75,20 @@ func TestSketch(t *testing.T) {
 	}
 }
 
+func TestLabelHashStable(t *testing.T) {
+	a := LabelHash("KNS.kas")
+	b := LabelHash("kns")
+	if a != b {
+		t.Fatal("normalize")
+	}
+	if LabelHash("alice") == LabelHash("bob") {
+		t.Fatal("distinct")
+	}
+	if LabelHashHex("kns") != "bf2c1d2ba1a39f872cf89a5cbf0edae491f1a25d50bcb3b983973a98fab6c906" {
+		t.Fatalf("pin %s", LabelHashHex("kns"))
+	}
+}
+
 func TestFee(t *testing.T) {
 	if FeeAddress("mainnet") != MainnetFee || FeeAddress("tn10") != TN10Fee {
 		t.Fatal("fee")

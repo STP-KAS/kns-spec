@@ -150,6 +150,7 @@ func plan(label string) {
 	fmt.Println(string(payload))
 	fmt.Println(envelope.ScriptSketch(payload))
 	fmt.Printf("name     %s\n", name)
+	fmt.Printf("labelHash %s  (sha256 kns/v1/ + label)\n", envelope.LabelHashHex(label))
 	fmt.Printf("price    %d KAS\n", envelope.PriceKAS(label))
 	fmt.Printf("fee to   %s (reveal output 0)\n", envelope.FeeAddress("mainnet"))
 	fmt.Printf("indexer  %s\n", avail)
