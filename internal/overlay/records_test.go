@@ -29,6 +29,13 @@ func TestURI(t *testing.T) {
 	}
 }
 
+func TestFromMapNil(t *testing.T) {
+	r := FromMap(map[string]any{"website": "https://app.knsdomains.org/", "bio": nil, "x": "knsdomain"})
+	if r.App() != "https://app.knsdomains.org/" {
+		t.Fatal(r.App())
+	}
+}
+
 func TestParse(t *testing.T) {
 	r, err := Parse([]byte(`{"kas":"kaspa:qq","ipfs":"ipfs://cid","peer":"/ip4/10.0.0.1/tcp/4001"}`))
 	if err != nil {

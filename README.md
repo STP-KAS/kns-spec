@@ -31,6 +31,7 @@ go run ./cmd/kns-spec prove
 go run ./cmd/kns-spec check kns.kas
 go run ./cmd/kns-spec plan example
 go run ./cmd/kns-spec resolve kns.kas
+go run ./cmd/kns-spec overlay kns.kas
 ```
 
 ## Proven mainnet txs

@@ -43,6 +43,40 @@ type Records struct {
 	VaultCommit string `json:"vaultCommit,omitempty"`
 }
 
+func FromMap(m map[string]any) Records {
+	str := func(k string) string {
+		if m == nil {
+			return ""
+		}
+		v, ok := m[k]
+		if !ok || v == nil {
+			return ""
+		}
+		s, ok := v.(string)
+		if !ok {
+			return ""
+		}
+		return strings.TrimSpace(s)
+	}
+	return Records{
+		KAS:         str(KeyKAS),
+		Pay:         str(KeyPay),
+		IPFS:        str(KeyIPFS),
+		KFS:         str(KeyKFS),
+		Arweave:     str(KeyArweave),
+		ContentHash: str(KeyContent),
+		Website:     str(KeyWebsite),
+		Redirect:    str(KeyRedirect),
+		Peer:        str(KeyPeer),
+		Onion:       str(KeyOnion),
+		Noise:       str(KeyNoise),
+		Agent:       str(KeyAgent),
+		Lane:        str(KeyLane),
+		Vault:       str(KeyVault),
+		VaultCommit: str(KeyVaultCom),
+	}
+}
+
 func Parse(raw []byte) (Records, error) {
 	var r Records
 	if len(raw) == 0 {
