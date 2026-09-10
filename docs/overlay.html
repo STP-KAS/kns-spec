@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>kns:// — the extra layer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <a class="brand" href="./">KNS implementer kit</a>
+  <nav>
+    <a href="./">For KNS</a>
+    <a href="protocol.html">Protocol</a>
+    <a href="wallets.html">Wallets</a>
+    <a href="overlay.html" aria-current="page">Overlay</a>
+    <a href="proofs.html">Proofs</a>
+    <a href="https://github.com/STP-KAS/kns-spec">GitHub</a>
+  </nav>
+</header>
+<main>
+  <p class="kicker">Beyond the chain</p>
+  <h1>A name that is the internet, not a site on it</h1>
+  <p class="lede">ENS put names on Ethereum. The web still runs on ICANN and CAs. KNS can invert that: Kaspa settles and identifies. The dApp runs on the user’s machine. Session is Noise/libp2p or onion, authenticated by the name key. Spec: <a href="https://github.com/STP-KAS/kns-spec/blob/main/OVERLAY.md">OVERLAY.md</a>.</p>
+
+  <div class="share"><code>kns://alice.kas</code> · <code>kns://alice.kas/pay</code> · <code>kns://alice.kas/peer</code></div>
+
+  <h2>Four planes</h2>
+  <ol class="ask">
+    <li><b>Settle</b> — Kaspa L1. KAS. Optional <code>KasName.sil</code>.</li>
+    <li><b>Locate</b> — KNS records (official indexer or your <a href="https://github.com/supertypo/simply-kaspa-indexer">simply-kaspa-indexer</a>).</li>
+    <li><b>Session</b> — <code>peer</code> / <code>onion</code> / <code>noise</code>. Not TLS-to-Cloudflare.</li>
+    <li><b>Run</b> — fetch IPFS/KFS, sandbox locally. Pay with 402 / <code>kaspa:</code>.</li>
+  </ol>
+
+  <div class="note">
+    <code>https://alice.kas.limo</code> is the old web. Useful. It leaks DNS. The overlay must work with a node you run.
+  </div>
+
+  <h2>Better than ENS where Kaspa is actually better</h2>
+  <ul>
+    <li>Name as UTXO (parallel), not one registry contract.</li>
+    <li>No renewal. Parent-issued subnames when elevated to covenant.</li>
+    <li>Pay KAS to the same name.</li>
+    <li>Resolve without Infura if you index L1 yourself.</li>
+  </ul>
+  <p>Not better yet: uniqueness is still indexer FCFS. Multi-dot L1 is a flat string, not hierarchy. No ECDSA.</p>
+
+  <h2>Build order</h2>
+  <ol class="ask">
+    <li>Record keys + <code>kns://</code> (this kit).</li>
+    <li>Elevate to name UTXO; parent mints subnames.</li>
+    <li>libp2p identity = Kaspa schnorr (or <code>noise</code> record).</li>
+    <li>Optional KIP-21 lane for that name’s mail.</li>
+  </ol>
+</main>
+<footer>STP-KAS · MIT · Overlay is not official KNS L2</footer>
+</body>
+</html>

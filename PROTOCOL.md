@@ -9,7 +9,7 @@ Source of truth (official):
 - Wallets: https://kns-2.gitbook.io/kns-docs-1/supporting-wallet
 - L1 indexer used by the resolver: https://github.com/supertypo/simply-kaspa-indexer
 
-This file is the copy a wallet can implement without hunting. Wallets: [`WALLETS.md`](WALLETS.md). Indexers: [`INDEXER.md`](INDEXER.md).
+This file is the copy a wallet can implement without hunting. Wallets: [`WALLETS.md`](WALLETS.md). Indexers: [`INDEXER.md`](INDEXER.md). Overlay (`kns://`): [`OVERLAY.md`](OVERLAY.md).
 
 ## Envelope
 
