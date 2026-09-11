@@ -33,6 +33,7 @@ go run ./cmd/kns-spec plan example
 go run ./cmd/kns-spec resolve kns.kas
 go run ./cmd/kns-spec overlay kns.kas
 go run ./cmd/kns-spec vectors
+go run ./cmd/kns-spec bind alice.kas <xonly> <noise-x25519>
 ```
 
 ## Proven mainnet txs

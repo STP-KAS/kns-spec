@@ -46,3 +46,23 @@ func TestLiveKnsKas(t *testing.T) {
 		t.Fatalf("profile %+v", p.Profile)
 	}
 }
+
+func TestLiveSnapshot(t *testing.T) {
+	if testing.Short() {
+		t.Skip("live")
+	}
+	c := New("")
+	s, err := c.Snapshot("kns.kas")
+	if err != nil {
+		t.Skip(err)
+	}
+	if s.Pay == "" || s.Web == "" {
+		t.Fatalf("%+v", s)
+	}
+	if s.Run != "" {
+		t.Fatal("kns.kas has no CID; run must be empty")
+	}
+	if s.PayURI == "" || s.Warn == "" {
+		t.Fatal("pay/warn")
+	}
+}

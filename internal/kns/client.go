@@ -100,8 +100,7 @@ type Profile struct {
 
 func (c *Client) Profile(assetID string) (*Profile, error) {
 	var env Envelope[Profile]
-	keys := "redirectUrl,bio,avatarUrl,website,x,github,telegram,discord,email,banner"
-	path := "/api/v1/domain/" + url.PathEscape(assetID) + "/profile?keys=" + url.QueryEscape(keys)
+	path := "/api/v1/domain/" + url.PathEscape(assetID) + "/profile?keys=" + url.QueryEscape(ProfileKeys)
 	if err := c.get(path, &env); err != nil {
 		return nil, err
 	}
