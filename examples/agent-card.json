@@ -1,0 +1,12 @@
+{
+  "$comment": "Callable agent at kns://alice.kas/agent. Shape only. Not an ERC-8004 registry.",
+  "name": "alice.kas",
+  "did": "kns:alice.kas",
+  "pay": "kaspa:qzexample",
+  "endpoints": {
+    "mcp": "kns://alice.kas/mcp",
+    "http402": "kns://alice.kas/call"
+  },
+  "content": "ipfs://bafyexample",
+  "auth": "kaspa-schnorr"
+}
