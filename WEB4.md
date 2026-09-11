@@ -126,4 +126,6 @@ Plus: Profile API returns **all** keys, not a hardcoded allowlist. Primary name 
 
 `kns://` execution uses **Run** order (`ipfs` → `kfs` → `contenthash`). Never execute `website`.
 
+Working companion (no seed): https://stp-kas.github.io/kns-spec/open.html — resolve any `.kas`, split web vs run, show pay address.
+
 Checklist: [CONFORMANCE.md](CONFORMANCE.md). Overlay: [OVERLAY.md](OVERLAY.md).

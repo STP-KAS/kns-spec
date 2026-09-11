@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Open kns:// — companion</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <a class="brand" href="./">KNS implementer kit</a>
+  <nav>
+    <a href="./">For KNS</a>
+    <a href="open.html" aria-current="page">Open</a>
+    <a href="web4.html">Web4</a>
+    <a href="conformance.html">Conformance</a>
+    <a href="https://github.com/STP-KAS/kns-spec">GitHub</a>
+  </nav>
+</header>
+<main>
+  <p class="kicker">No seed. Local companion.</p>
+  <h1>Open a .kas name</h1>
+  <p class="lede">This is the v0 runtime: resolve, split <strong>web</strong> vs <strong>run</strong>, show the pay address. It never iframes HTTPS as a dApp. Never asks for a seed.</p>
+  <label for="q">Name</label>
+  <p><input id="q" value="kns.kas" autocomplete="off" style="width:100%;padding:0.45rem 0.6rem;font:inherit;background:#0a0e13;color:var(--text);border:1px solid var(--line)"></p>
+  <p><button id="go" type="button" style="font:inherit;padding:0.45rem 0.8rem">Resolve</button></p>
+  <div class="warn" id="warn">⚠️ Before sending a transaction, please ensure that the resolved address is correct. Once a transfer is sent, it cannot be reversed. Any input errors may result in the loss of assets. Please verify carefully.</div>
+  <div id="out"></div>
+</main>
+<footer>STP-KAS · uses official api.knsdomains.org · not a wallet</footer>
+<script>
+const API = "https://api.knsdomains.org/mainnet/api/v1";
+const keys = "redirectUrl,bio,avatarUrl,website,x,github,telegram,discord,email,banner,ipfs,kfs,contenthash,peer,onion,agent,kas,noise";
+function withKas(n) {
+  n = (n || "").trim().toLowerCase();
+  return n.endsWith(".kas") ? n : n + ".kas";
+}
+function pick(m, k) { const v = m && m[k]; return (typeof v === "string" && v.trim()) ? v.trim() : ""; }
+function web(r) {
+  return pick(r,"redirectUrl") || pick(r,"website") || pick(r,"ipfs") || pick(r,"kfs") || pick(r,"arweave") || pick(r,"contenthash");
+}
+function run(r) { return pick(r,"ipfs") || pick(r,"kfs") || pick(r,"contenthash"); }
+function session(r) { return pick(r,"peer") || pick(r,"onion") || pick(r,"noise"); }
+function esc(s) { return String(s||"").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c])); }
+async function resolve() {
+  const name = withKas(document.getElementById("q").value);
+  const out = document.getElementById("out");
+  out.innerHTML = "<p>Resolving…</p>";
+  try {
+    const ownRes = await fetch(API + "/" + encodeURIComponent(name) + "/owner");
+    const ownJ = await ownRes.json();
+    if (!ownJ.success || !ownJ.data || !ownJ.data.owner) throw new Error("not found");
+    const owner = ownJ.data.owner;
+    const id = ownJ.data.assetId;
+    let rec = {};
+    try {
+      const pRes = await fetch(API + "/domain/" + encodeURIComponent(id) + "/profile?keys=" + encodeURIComponent(keys));
+      const pJ = await pRes.json();
+      rec = (pJ.data && pJ.data.profile) || {};
+    } catch (e) {}
+    const pay = pick(rec,"kas") || pick(rec,"pay") || owner;
+    const w = web(rec), r = run(rec), sess = session(rec);
+    let html = "<h2>" + esc(name) + "</h2>";
+    html += "<p><code>kns://" + esc(name) + "</code></p>";
+    html += "<div class='card'><h3>Pay</h3><p class='mono'>" + esc(pay) + "</p>";
+    html += "<p><a href='" + esc(pay) + "'>kaspa URI</a></p></div>";
+    html += "<div class='card'><h3>Web (.limo / browser)</h3><p>" + (w ? "<a href='" + esc(w) + "'>" + esc(w) + "</a>" : "none") + "</p></div>";
+    html += "<div class='card'><h3>Run (kns:// sandbox)</h3>";
+    if (r) html += "<p class='mono'>" + esc(r) + "</p><p>Fetch this CID locally. Do not use ipfs.io as truth.</p>";
+    else html += "<p>No CID. This name is identity + pay only. Not a dApp.</p>";
+    html += "</div>";
+    html += "<div class='card'><h3>Session</h3><p>" + (sess ? esc(sess) : "none — default is capability, not a public IP") + "</p></div>";
+    html += "<p class='tiny'>Owner " + esc(owner) + " · id " + esc(id) + "</p>";
+    out.innerHTML = html;
+  } catch (e) {
+    out.innerHTML = "<p>Failed: " + esc(e.message) + "</p>";
+  }
+}
+document.getElementById("go").onclick = resolve;
+document.getElementById("q").addEventListener("keydown", (e) => { if (e.key === "Enter") resolve(); });
+resolve();
+</script>
+</body>
+</html>

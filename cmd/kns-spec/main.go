@@ -54,6 +54,19 @@ func main() {
 		primary(args[1])
 	case "vectors":
 		vectors()
+	case "bind":
+		if len(args) < 4 {
+			fail("usage: kns-spec bind <name.kas> <owner-xonly-hex> <noise-x25519-hex> [seq] [exp]")
+		}
+		seq, exp := 1, int64(0)
+		if len(args) >= 5 {
+			fmt.Sscan(args[4], &seq)
+		}
+		if len(args) >= 6 {
+			fmt.Sscan(args[5], &exp)
+		}
+		fmt.Print(overlay.BindingMessage(args[1], args[2], args[3], seq, exp))
+		fmt.Println()
 	default:
 		usage()
 		os.Exit(2)
@@ -74,6 +87,7 @@ func usage() {
   kns-spec overlay <name.kas>
   kns-spec primary <kaspa:addr>
   kns-spec vectors
+  kns-spec bind <name.kas> <owner-xonly> <noise-x25519> [seq] [exp]
 `)
 }
 
@@ -188,59 +202,22 @@ func withKas(name string) string {
 }
 
 func resolve(name string) {
-	name = withKas(name)
-	c := kns.New("")
-	own, err := c.Owner(name)
-	if err != nil {
-		fail(err.Error())
-	}
-	a, _ := c.Asset(name)
-	out := map[string]any{
-		"name":  own.Asset,
-		"owner": own.Owner,
-		"id":    own.AssetID,
-		"warn":  "Indexer resolution. Verify the address before sending. Not consensus.",
-	}
-	if a != nil {
-		out["txid"] = a.TransactionID
-		out["explorer"] = "https://explorer.kaspa.org/txs/" + a.TransactionID
-	}
-	enc := json.NewEncoder(os.Stdout)
-	enc.SetIndent("", "  ")
-	_ = enc.Encode(out)
+	dumpSnapshot(name)
 }
 
 func overlayCmd(name string) {
-	name = withKas(name)
+	dumpSnapshot(name)
+}
+
+func dumpSnapshot(name string) {
 	c := kns.New("")
-	own, err := c.Owner(name)
+	s, err := c.Snapshot(name)
 	if err != nil {
 		fail(err.Error())
 	}
-	rec := overlay.Records{KAS: own.Owner}
-	if p, err := c.Profile(own.AssetID); err == nil && p != nil {
-		got := overlay.FromMap(p.Profile)
-		got.KAS = own.Owner
-		rec = got
-	}
-	out := map[string]any{
-		"name":    name,
-		"owner":   own.Owner,
-		"id":      own.AssetID,
-		"kns":     overlay.URI(name, ""),
-		"pay":     overlay.URI(name, "pay"),
-		"peer":    overlay.URI(name, "peer"),
-		"address": rec.PayAddress(),
-		"web":     rec.Web(),
-		"run":     rec.Run(),
-		"session": rec.Session(),
-		"private": rec.Private(),
-		"payURI":  overlay.PayURI(rec.PayAddress()),
-		"warn":    overlay.ResolveWarning,
-	}
 	enc := json.NewEncoder(os.Stdout)
 	enc.SetIndent("", "  ")
-	_ = enc.Encode(out)
+	_ = enc.Encode(s)
 }
 
 func primary(owner string) {
