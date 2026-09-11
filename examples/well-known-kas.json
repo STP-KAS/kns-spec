@@ -1,0 +1,7 @@
+{
+  "$comment": "Publish at https://<your-site>/.well-known/kas.json — a NIP-05-shaped hint. Ownership is the inscription, not this file.",
+  "names": {
+    "alice": "kaspa:qzt9yuqceqvt2vk9dz7ddzayaa5flnenkymec59xvzm55ln3k72vgecxjhnjp"
+  },
+  "ins": "223233acf8e5abea9291627a5edd859439c4553100c71309b86599f02414a532i0"
+}

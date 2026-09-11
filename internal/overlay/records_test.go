@@ -4,12 +4,18 @@ import "testing"
 
 func TestAppOrder(t *testing.T) {
 	r := Records{Website: "https://a", IPFS: "ipfs://b"}
-	if r.App() != "https://a" {
-		t.Fatal(r.App())
+	if r.Web() != "https://a" {
+		t.Fatal(r.Web())
+	}
+	if r.Run() != "ipfs://b" {
+		t.Fatal("run ignores https")
 	}
 	r.Redirect = "https://r"
 	if r.App() != "https://r" {
-		t.Fatal("redirect first")
+		t.Fatal("redirect first for web")
+	}
+	if r.Run() != "ipfs://b" {
+		t.Fatal("run still cid")
 	}
 }
 

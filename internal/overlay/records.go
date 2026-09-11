@@ -94,7 +94,22 @@ func (r Records) PayAddress() string {
 }
 
 func (r Records) App() string {
+	return r.Web()
+}
+
+// Web is the old-web / .limo order. Do not iframe this as kns:// execution.
+func (r Records) Web() string {
 	for _, v := range []string{r.Redirect, r.Website, r.IPFS, r.KFS, r.Arweave, r.ContentHash} {
+		if strings.TrimSpace(v) != "" {
+			return strings.TrimSpace(v)
+		}
+	}
+	return ""
+}
+
+// Run is kns:// execution: content-addressed bytes only. Never HTTPS.
+func (r Records) Run() string {
+	for _, v := range []string{r.IPFS, r.KFS, r.ContentHash} {
 		if strings.TrimSpace(v) != "" {
 			return strings.TrimSpace(v)
 		}

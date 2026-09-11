@@ -33,7 +33,11 @@ Proposed profile keys: [`PROFILE.md`](PROFILE.md)
 15. Fetch IPFS/KFS and **run the dApp on the user device**. Do not make Cloudflare the source of truth.
 16. Authenticate overlay sessions with the name’s schnorr key (or `noise` record).
 17. Offer **local resolve** via [simply-kaspa-indexer](https://github.com/supertypo/simply-kaspa-indexer) so a user is not forced through `api.knsdomains.org`.
-18. Primary name (reverse): `GET /api/v1/primary-name/{owner}` — already in the official API.
+18. Primary name (reverse): `GET /api/v1/primary-name/{owner}` — already in the official API. **Display it only if Domain API owner == that address** (ENS reverse rule).
+19. One-shot resolve payload for wallets: `{ domain, owner, addr, primary, verified, records }` so clients stop N+1 calling Profile + Domain + Primary.
+20. `kns://` **run** order is `ipfs` → `kfs` → `contenthash` only. Do not iframe `website` / `redirectUrl` as the dApp (that reintroduces CAs).
+21. Default overlay rendezvous is a **capability**, not a public `/ip4/` multiaddr. Public `peer` is opt-in shop-window.
+22. On domain transfer, offer **clear profile** so the buyer does not inherit Telegram/X.
 
 ## MUST NOT
 

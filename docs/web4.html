@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Web4 .kas — the name is the computer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <a class="brand" href="./">KNS implementer kit</a>
+  <nav>
+    <a href="./">For KNS</a>
+    <a href="conformance.html">Conformance</a>
+    <a href="overlay.html">Overlay</a>
+    <a href="web4.html" aria-current="page">Web4</a>
+    <a href="https://github.com/STP-KAS/kns-spec">GitHub</a>
+  </nav>
+</header>
+<main>
+  <p class="kicker">Think big, stay honest</p>
+  <h1>KNS copied ENS’s skin. Web4 is the machinery they still need.</h1>
+  <p class="lede">Full write-up: <a href="https://github.com/STP-KAS/kns-spec/blob/main/WEB4.md">WEB4.md</a>. Four independent reviews: ENS protocol, privacy overlay, Kaspa runtime, Handshake/UD/SNS/IPNS/Farcaster/Nostr.</p>
+
+  <h2>The extra layer is not a chain</h2>
+  <p>Settle (Kaspa) → Locate (reproducible FCFS) → Session (Noise + capability) → Run (local sandbox). <code>kns://alice.kas</code> must work with your node. <code>.kas.limo</code> leaks DNS.</p>
+
+  <h2>Do not copy</h2>
+  <p>Rent. One registry contract. Infura as the required path. NameWrapper forever-fuses. DNSSEC as root. L2 as where names become “real.” libp2p identity = Kaspa schnorr (false: ECDSA vs BIP340).</p>
+
+  <h2>This week, no fork</h2>
+  <ol class="ask">
+    <li>Profile keys: <code>ipfs kfs contenthash peer onion agent kas noise</code></li>
+    <li><code>kas</code> payee ≠ owner. Primary name in the wallet, forward-checked.</li>
+    <li>One-shot <code>/resolve</code>. Batch profile. Clear profile on transfer.</li>
+    <li><code>kns://</code> <strong>runs</strong> only CIDs. Never iframe <code>website</code>.</li>
+    <li>Public <code>peer</code> is a shop window. Default is invite/capability.</li>
+  </ol>
+  <p>90-day wallet path (BINDING → Noise → caps → CID sandbox → 402) is in WEB4.md. Argent and vProgs are not the dApp host.</p>
+</main>
+<footer>STP-KAS · MIT · Not official KNS policy</footer>
+</body>
+</html>
