@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Web4-ready .kas — conformance</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <a class="brand" href="./">KNS implementer kit</a>
+  <nav>
+    <a href="./">For KNS</a>
+    <a href="protocol.html">Protocol</a>
+    <a href="wallets.html">Wallets</a>
+    <a href="overlay.html">Overlay</a>
+    <a href="conformance.html" aria-current="page">Conformance</a>
+    <a href="proofs.html">Proofs</a>
+    <a href="https://github.com/STP-KAS/kns-spec">GitHub</a>
+  </nav>
+</header>
+<main>
+  <p class="kicker">Ship this</p>
+  <h1>What KNS and wallets must do</h1>
+  <p class="lede">Full list: <a href="https://github.com/STP-KAS/kns-spec/blob/main/CONFORMANCE.md">CONFORMANCE.md</a>. Profile keys: <a href="https://github.com/STP-KAS/kns-spec/blob/main/PROFILE.md">PROFILE.md</a>. Schema: <a href="https://github.com/STP-KAS/kns-spec/blob/main/schemas/overlay-records.schema.json">overlay-records.schema.json</a>.</p>
+
+  <h2>The one indexer change that unlocks Web4</h2>
+  <p>Add these keys to Edit Profile and to <code>?keys=</code> on the Profile API. Same 1 KAS text inscriptions as website. No hard fork.</p>
+  <p><code>ipfs</code> · <code>kfs</code> · <code>contenthash</code> · <code>peer</code> · <code>onion</code> · <code>agent</code> · <code>kas</code> · <code>noise</code></p>
+
+  <h2>MUST</h2>
+  <ol class="ask">
+    <li>URL-encode names. ENS-normalize. Price with <code>graphemer</code> (🏳️‍🌈 = 1).</li>
+    <li>Check before create. Reveal output 0 = protocol fee. Wallet × 1.05.</li>
+    <li>Show the resolved <code>kaspa:</code> address and the official reverse-is-impossible warning.</li>
+    <li>No ECDSA. Kastle mobile cannot inscribe. Non-supporting receivers cannot see the domain.</li>
+  </ol>
+  <div class="warn">⚠️ Before sending a transaction, please ensure that the resolved address is correct. Once a transfer is sent, it cannot be reversed. Any input errors may result in the loss of assets. Please verify carefully.</div>
+
+  <h2>SHOULD</h2>
+  <p>App order: redirectUrl → website → ipfs → kfs → arweave → contenthash. URI <code>kns://alice.kas</code>. Run the dApp on the user device. Local indexer if they want no Infura-equivalent.</p>
+</main>
+<footer>STP-KAS · MIT · Not official KNS policy — a handoff</footer>
+</body>
+</html>

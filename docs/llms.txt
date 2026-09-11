@@ -19,5 +19,7 @@ Proven:
 - bakery.kas / michelleobamaisaman.kas / trump.kas / opus.kas / opus.dei.kas unrevealed P2SH deploys (see proofs/proofs.json)
 
 Overlay (not a new chain): kns://alice.kas — settle on Kaspa, locate via KNS, session peer/onion, run dApp locally. OVERLAY.md
+Conformance: CONFORMANCE.md — MUST graphemer, ens-normalize, check, fee output 0, resolve warning, no ECDSA. SHOULD add profile keys ipfs/kfs/peer/onion/agent.
+Profile keys: PROFILE.md
 Implement: PROTOCOL.md, KASWARE.md, optional contracts/v1/KasName.sil compiled with silverc v1.0.0 (Ori, 3ed9733). No foreign readInputState (silverscript#234 still unmerged).
 Never ask for a seed.

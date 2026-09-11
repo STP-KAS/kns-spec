@@ -111,6 +111,27 @@ func (c *Client) Profile(assetID string) (*Profile, error) {
 	return &env.Data, nil
 }
 
+type Primary struct {
+	OwnerAddress  string `json:"ownerAddress"`
+	InscriptionID string `json:"inscriptionId"`
+	Domain        *struct {
+		FullName   string `json:"fullName"`
+		IsVerified bool   `json:"isVerified"`
+	} `json:"domain"`
+}
+
+func (c *Client) Primary(owner string) (*Primary, error) {
+	var env Envelope[Primary]
+	path := "/api/v1/primary-name/" + url.PathEscape(owner)
+	if err := c.get(path, &env); err != nil {
+		return nil, err
+	}
+	if !env.Success {
+		return nil, fmt.Errorf("primary not set")
+	}
+	return &env.Data, nil
+}
+
 func (c *Client) Asset(name string) (*Asset, error) {
 	q := url.Values{}
 	q.Set("asset", name)
