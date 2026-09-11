@@ -1,6 +1,42 @@
 package envelope
 
-import "testing"
+import (
+	"encoding/json"
+	"os"
+	"testing"
+)
+
+func TestVectorsFile(t *testing.T) {
+	raw, err := os.ReadFile("../../schemas/vectors.json")
+	if err != nil {
+		t.Skip(err)
+	}
+	var v struct {
+		CreateKns    string         `json:"createKns"`
+		MainnetFee   string         `json:"mainnetFee"`
+		LabelHashKns string         `json:"labelHashKns"`
+		Prices       map[string]int `json:"prices"`
+	}
+	if err := json.Unmarshal(raw, &v); err != nil {
+		t.Fatal(err)
+	}
+	got, err := Create("kns")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if string(got) != v.CreateKns {
+		t.Fatalf("create %s want %s", got, v.CreateKns)
+	}
+	if FeeAddress("mainnet") != v.MainnetFee {
+		t.Fatal("fee")
+	}
+	if LabelHashHex("kns") != v.LabelHashKns {
+		t.Fatal("hash")
+	}
+	if PriceKAS("a") != v.Prices["1"] || PriceKAS("alice") != v.Prices["5"] {
+		t.Fatal("prices")
+	}
+}
 
 func TestCreatePayload(t *testing.T) {
 	b, err := Create("KNS.kas")

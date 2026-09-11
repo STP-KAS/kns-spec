@@ -36,6 +36,12 @@ func TestFromMapNil(t *testing.T) {
 	}
 }
 
+func TestPayURI(t *testing.T) {
+	if PayURI("kaspa:qq") != "kaspa:qq" || PayURI("qq") != "kaspa:qq" {
+		t.Fatal("pay uri")
+	}
+}
+
 func TestParse(t *testing.T) {
 	r, err := Parse([]byte(`{"kas":"kaspa:qq","ipfs":"ipfs://cid","peer":"/ip4/10.0.0.1/tcp/4001"}`))
 	if err != nil {

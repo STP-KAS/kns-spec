@@ -116,6 +116,23 @@ func (r Records) Private() bool {
 	return strings.TrimSpace(r.Vault) != "" || strings.TrimSpace(r.VaultCommit) != ""
 }
 
+// ResolveWarning is the official KNS integration-note class of text.
+const ResolveWarning = "⚠️ Before sending a transaction, please ensure that the resolved address is correct. Once a transfer is sent, it cannot be reversed. Any input errors may result in the loss of assets. Please verify carefully."
+
+// ProposedKeys are the extra profile keys KNS should index (still text inscriptions).
+var ProposedKeys = []string{KeyIPFS, KeyKFS, KeyContent, KeyPeer, KeyOnion, KeyAgent, KeyKAS, KeyNoise}
+
+func PayURI(addr string) string {
+	addr = strings.TrimSpace(addr)
+	if addr == "" {
+		return ""
+	}
+	if strings.HasPrefix(addr, "kaspa:") || strings.HasPrefix(addr, "kaspatest:") {
+		return addr
+	}
+	return "kaspa:" + addr
+}
+
 func URI(name, path string) string {
 	name = strings.TrimSpace(strings.ToLower(name))
 	if !strings.HasSuffix(name, ".kas") {

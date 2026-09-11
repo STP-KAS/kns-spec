@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/STP-KAS/kns-spec/internal/envelope"
@@ -46,6 +47,13 @@ func main() {
 			fail("usage: kns-spec overlay name.kas")
 		}
 		overlayCmd(args[1])
+	case "primary":
+		if len(args) < 2 {
+			fail("usage: kns-spec primary kaspa:q…")
+		}
+		primary(args[1])
+	case "vectors":
+		vectors()
 	default:
 		usage()
 		os.Exit(2)
@@ -64,6 +72,8 @@ func usage() {
   kns-spec envelope send <inscriptionId>
   kns-spec resolve <name.kas>
   kns-spec overlay <name.kas>
+  kns-spec primary <kaspa:addr>
+  kns-spec vectors
 `)
 }
 
@@ -224,11 +234,57 @@ func overlayCmd(name string) {
 		"app":     rec.App(),
 		"session": rec.Session(),
 		"private": rec.Private(),
-		"warn":    "Indexer resolution. Verify the address before sending. https://alice.kas.limo leaks DNS. kns:// does not need ICANN.",
+		"payURI":  overlay.PayURI(rec.PayAddress()),
+		"warn":    overlay.ResolveWarning,
 	}
 	enc := json.NewEncoder(os.Stdout)
 	enc.SetIndent("", "  ")
 	_ = enc.Encode(out)
+}
+
+func primary(owner string) {
+	c := kns.New("")
+	p, err := c.Primary(owner)
+	if err != nil {
+		fail(err.Error())
+	}
+	enc := json.NewEncoder(os.Stdout)
+	enc.SetIndent("", "  ")
+	_ = enc.Encode(p)
+}
+
+func vectors() {
+	raw, err := os.ReadFile(findFile("schemas/vectors.json"))
+	if err != nil {
+		fail(err.Error())
+	}
+	os.Stdout.Write(raw)
+	if len(raw) == 0 || raw[len(raw)-1] != '\n' {
+		fmt.Println()
+	}
+}
+
+func findFile(rel string) string {
+	if _, err := os.Stat(rel); err == nil {
+		return rel
+	}
+	wd, err := os.Getwd()
+	if err != nil {
+		return rel
+	}
+	dir := wd
+	for i := 0; i < 8; i++ {
+		p := filepath.Join(dir, rel)
+		if _, err := os.Stat(p); err == nil {
+			return p
+		}
+		parent := filepath.Dir(dir)
+		if parent == dir {
+			break
+		}
+		dir = parent
+	}
+	return rel
 }
 
 func fail(msg string) {

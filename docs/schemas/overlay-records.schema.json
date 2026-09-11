@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://stp-kas.github.io/kns-spec/schemas/overlay-records.schema.json",
+  "title": "KNS overlay records",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "kas": { "type": "string", "description": "Payment address if not the inscription owner" },
+    "pay": { "type": "string" },
+    "ipfs": { "type": "string", "pattern": "^ipfs://" },
+    "kfs": { "type": "string" },
+    "arweave": { "type": "string" },
+    "contenthash": { "type": "string" },
+    "website": { "type": "string" },
+    "redirectUrl": { "type": "string" },
+    "peer": { "type": "string", "description": "libp2p multiaddr, comma-separated" },
+    "onion": { "type": "string" },
+    "noise": { "type": "string" },
+    "agent": { "type": "string" },
+    "lane": { "type": "string" },
+    "vault": { "type": "string" },
+    "vaultCommit": { "type": "string" }
+  }
+}

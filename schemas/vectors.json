@@ -1,0 +1,26 @@
+{
+  "warn": "⚠️ Before sending a transaction, please ensure that the resolved address is correct. Once a transfer is sent, it cannot be reversed. Any input errors may result in the loss of assets. Please verify carefully.",
+  "mainnetFee": "kaspa:qyp4nvaq3pdq7609z09fvdgwtc9c7rg07fuw5zgeee7xpr085de59eseqfcmynn",
+  "tn10Fee": "kaspatest:qq9h47etjv6x8jgcla0ecnp8mgrkfxm70ch3k60es5a50ypsf4h6sak3g0lru",
+  "createKns": "{\"op\":\"create\",\"p\":\"domain\",\"v\":\"kns\"}",
+  "prices": { "1": 4200, "2": 4200, "3": 2100, "4": 525, "5": 35, "text": 1 },
+  "walletNeed": { "domain": 1.05, "text": 2 },
+  "labelHashKns": "bf2c1d2ba1a39f872cf89a5cbf0edae491f1a25d50bcb3b983973a98fab6c906",
+  "knsKas": {
+    "name": "kns.kas",
+    "inscriptionId": "223233acf8e5abea9291627a5edd859439c4553100c71309b86599f02414a532i0",
+    "txid": "223233acf8e5abea9291627a5edd859439c4553100c71309b86599f02414a532",
+    "owner": "kaspa:qzt9yuqceqvt2vk9dz7ddzayaa5flnenkymec59xvzm55ln3k72vgecxjhnjp",
+    "x": "knsdomain",
+    "website": "https://app.knsdomains.org/"
+  },
+  "appOrder": ["redirectUrl", "website", "ipfs", "kfs", "arweave", "contenthash"],
+  "graphemer": {
+    "note": "Official visual length uses npm graphemer, not UTF-16 length.",
+    "rainbowFlagVisual": 1,
+    "package": "https://www.npmjs.com/package/graphemer"
+  },
+  "normalize": "https://www.npmjs.com/package/@adraffy/ens-normalize",
+  "ecdsa": false,
+  "kastleMobileInscribe": false
+}
