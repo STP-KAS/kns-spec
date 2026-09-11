@@ -19,7 +19,7 @@ Sister demo (Web4 UI, not this spec): [STP-KAS/kns](https://github.com/STP-KAS/k
 
 Official docs: [inscriptions](https://kns-2.gitbook.io/kns-docs-1/inscriptions/overview) · [wallets](https://kns-2.gitbook.io/kns-docs-1/supporting-wallet) · [indexer API](https://kns-2.gitbook.io/kns-docs-1/kns-indexer-api) · [simply-kaspa-indexer](https://github.com/supertypo/simply-kaspa-indexer)
 
-**Beyond the chain:** [`WEB4.md`](WEB4.md) (the architecture) · [`OVERLAY.md`](OVERLAY.md) (`kns://`) · [`CONFORMANCE.md`](CONFORMANCE.md) · [`PROFILE.md`](PROFILE.md).
+**Keep it real:** [`REAL.md`](REAL.md) — what is live vs paper, and the non-crypto work (wallet chrome, indexer spec, pinning, no lookup logs). Architecture map (not shipped): [`WEB4.md`](WEB4.md).
 
 1. **Inscribe** with a [supporting wallet](WALLETS.md). KasWare ([`KASWARE.md`](KASWARE.md)) or Kastle **extension** ([`KASTLE.md`](KASTLE.md)). Kastle **mobile cannot inscribe**. Envelope: [`PROTOCOL.md`](PROTOCOL.md). Check the indexer first ([`INDEXER.md`](INDEXER.md)).
 2. **Resolve** with `api.knsdomains.org`. URL-encode names. Warn before sending KAS to a resolved address.
