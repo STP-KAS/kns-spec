@@ -39,6 +39,9 @@
 const FEE = "kaspa:qyp4nvaq3pdq7609z09fvdgwtc9c7rg07fuw5zgeee7xpr085de59eseqfcmynn";
 const log = (t) => { document.getElementById("log").textContent = t; };
 function visualLen(s) {
+  if (typeof Intl !== "undefined" && Intl.Segmenter) {
+    return [...new Intl.Segmenter("en", { granularity: "grapheme" }).segment(s)].length || s.length;
+  }
   return [...s].filter((c) => c !== "\u200d" && c !== "\ufe0f").length || s.length;
 }
 function price(label) {

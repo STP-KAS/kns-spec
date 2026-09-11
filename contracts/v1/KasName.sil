@@ -1,21 +1,8 @@
 pragma silverscript ^0.1.0;
 
-// Compiled with official silverc v1.0.0
-// https://github.com/kaspanet/silverscript/releases/tag/v1.0.0
-// Ori Newman @OriNewman 9 Sep 2026, commit 3ed9733.
-//
-// Single-contract Silverscript (Sutton: Argent is the multi-actor layer above
-// this, and is not release-ready). KCC-01 dispatch tags come from silverc.
-// Owner is a schnorr pubkey (KCC-02 scheme 0x00), not a KCC-20 token.
-//
-// Uniqueness of the *label* is still not consensus. Constructor takes
-// SHA-256("kns/v1/" || ascii-lowercase-label). A registrar must mint.
-// Do not readInputState a foreign covenant (silverscript#234, unmerged;
-// Sutton: provenance assumptions, not a merged framing pin).
-//
-// validateOutputState does not constrain amount (v1 tutorial). Continue the
-// name at the same sompi so storage-mass KAS is not stripped; pay miner fees
-// from a sibling P2PK input (CashScript / KCC borrowed-receive pattern).
+// silverc v1.0.0 (3ed9733). validateOutputState does not lock amount;
+// continuation keeps this input's sompi; pay fees from a sibling P2PK.
+// Label uniqueness is not consensus. Do not readInputState a foreign UTXO.
 
 contract KasName(pubkey initOwner, byte[32] initLabelHash) {
     pubkey owner = initOwner;
@@ -46,6 +33,7 @@ contract KasName(pubkey initOwner, byte[32] initLabelHash) {
 
     entry transfer(sig s, pubkey nextOwner) {
         require(checkSig(s, owner));
-        continueAtValue(nextOwner, kasPkh, vaultCommit);
+        byte[32] cleared = byte[32](0x0000000000000000000000000000000000000000000000000000000000000000);
+        continueAtValue(nextOwner, cleared, cleared);
     }
 }

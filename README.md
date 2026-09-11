@@ -82,4 +82,4 @@ Machine-readable: [`proofs/proofs.json`](proofs/proofs.json). Re-check: `go run 
 
 ## License
 
-MIT. Inscription protocol belongs to KNS. `KasName.sil` is compiled with official **silverc v1.0.0** (`3ed9733`, Ori / someone235). Template hash `8f2a7f691e2e4172da7e97865c1350b14e357f9e9668d46d32b073ec642e67f0` after value-conservation. Windows zip SHA256 `3e0d660c15a9e7ac90f3960da24d348b076b1891481bfe758db18accc8a102e1`.
+MIT. Inscription protocol belongs to KNS. `KasName.sil` is compiled with official **silverc v1.0.0** (`3ed9733`, Ori / someone235). Template hash `c8c06c1abe007e97f78b3f1701a443a41f54c65b878113c0d6cf3ed4b47fa79b` (value-conservation + transfer clears pay/vault). Windows zip SHA256 `3e0d660c15a9e7ac90f3960da24d348b076b1891481bfe758db18accc8a102e1`.

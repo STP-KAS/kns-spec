@@ -41,7 +41,13 @@ function web(r) {
 }
 function run(r) { return pick(r,"ipfs") || pick(r,"kfs") || pick(r,"contenthash"); }
 function session(r) { return pick(r,"peer") || pick(r,"onion") || pick(r,"noise"); }
-function esc(s) { return String(s||"").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c])); }
+function esc(s) { return String(s||"").replace(/[&<>"'`]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;","`":"&#96;"}[c])); }
+function safeHref(s) {
+  s = (s || "").trim();
+  const ok = /^(https?:|ipfs:|ipns:|kaspa:|kaspatest:)/i.test(s);
+  if (!ok || /[\s<>"'`]/.test(s)) return "";
+  return s;
+}
 async function resolve() {
   const name = withKas(document.getElementById("q").value);
   const out = document.getElementById("out");
@@ -63,8 +69,10 @@ async function resolve() {
     let html = "<h2>" + esc(name) + "</h2>";
     html += "<p><code>kns://" + esc(name) + "</code></p>";
     html += "<div class='card'><h3>Pay</h3><p class='mono'>" + esc(pay) + "</p>";
-    html += "<p><a href='" + esc(pay) + "'>kaspa URI</a></p></div>";
-    html += "<div class='card'><h3>Web (.limo / browser)</h3><p>" + (w ? "<a href='" + esc(w) + "'>" + esc(w) + "</a>" : "none") + "</p></div>";
+    const payH = safeHref(pay);
+    html += payH ? "<p><a href=\"" + esc(payH) + "\">kaspa URI</a></p></div>" : "<p>not a kaspa: address</p></div>";
+    const wH = safeHref(w);
+    html += "<div class='card'><h3>Web (.limo / browser)</h3><p>" + (wH ? "<a href=\"" + esc(wH) + "\">" + esc(w) + "</a>" : (w ? esc(w) : "none")) + "</p></div>";
     html += "<div class='card'><h3>Run (kns:// sandbox)</h3>";
     if (r) html += "<p class='mono'>" + esc(r) + "</p><p>Fetch this CID locally. Do not use ipfs.io as truth.</p>";
     else html += "<p>No CID. This name is identity + pay only. Not a dApp.</p>";

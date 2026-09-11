@@ -65,8 +65,11 @@ func main() {
 		if len(args) >= 6 {
 			fmt.Sscan(args[5], &exp)
 		}
-		fmt.Print(overlay.BindingMessage(args[1], args[2], args[3], seq, exp))
-		fmt.Println()
+		msg, err := overlay.BindingMessage(args[1], args[2], args[3], seq, exp)
+		if err != nil {
+			fail(err.Error())
+		}
+		fmt.Println(msg)
 	default:
 		usage()
 		os.Exit(2)

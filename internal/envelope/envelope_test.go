@@ -85,6 +85,15 @@ func TestOps(t *testing.T) {
 	}
 }
 
+func TestGraphemeFamily(t *testing.T) {
+	if VisualLength("👨‍👩‍👧‍👦") != 1 {
+		t.Fatalf("family %d want 1 (graphemer)", VisualLength("👨‍👩‍👧‍👦"))
+	}
+	if PriceKAS("👨‍👩‍👧‍👦") != 4200 {
+		t.Fatal("family price")
+	}
+}
+
 func TestPrice(t *testing.T) {
 	if PriceKAS("a") != 4200 || PriceKAS("ab") != 4200 {
 		t.Fatal("1-2")
