@@ -9,6 +9,8 @@ import (
 	"strings"
 	"unicode"
 	"unicode/utf8"
+
+	"github.com/rivo/uniseg"
 )
 
 const (
@@ -87,13 +89,7 @@ func PriceKAS(label string) int {
 }
 
 func VisualLength(s string) int {
-	n := 0
-	for _, r := range s {
-		if unicode.Is(unicode.Mn, r) || unicode.Is(unicode.Me, r) || r == 0x200D || r == 0xFE0F {
-			continue
-		}
-		n++
-	}
+	n := uniseg.GraphemeClusterCount(s)
 	if n == 0 {
 		return utf8.RuneCountInString(s)
 	}

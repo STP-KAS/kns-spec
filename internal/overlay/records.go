@@ -86,11 +86,22 @@ func Parse(raw []byte) (Records, error) {
 	return r, err
 }
 
-func (r Records) PayAddress() string {
-	if s := strings.TrimSpace(r.KAS); s != "" {
+func kaspaAddr(s string) string {
+	s = strings.TrimSpace(s)
+	if strings.ContainsAny(s, " \n\t'\"<>") {
+		return ""
+	}
+	if strings.HasPrefix(s, "kaspa:") || strings.HasPrefix(s, "kaspatest:") {
 		return s
 	}
-	return strings.TrimSpace(r.Pay)
+	return ""
+}
+
+func (r Records) PayAddress() string {
+	if s := kaspaAddr(r.KAS); s != "" {
+		return s
+	}
+	return kaspaAddr(r.Pay)
 }
 
 func (r Records) App() string {
@@ -107,11 +118,24 @@ func (r Records) Web() string {
 	return ""
 }
 
+func contentPtr(s string) string {
+	s = strings.TrimSpace(s)
+	switch {
+	case strings.HasPrefix(s, "ipfs://"), strings.HasPrefix(s, "ipns://"), strings.HasPrefix(s, "kfs:"), strings.HasPrefix(s, "ar://"):
+		if strings.ContainsAny(s, " \n\t'\"<>") {
+			return ""
+		}
+		return s
+	default:
+		return ""
+	}
+}
+
 // Run is kns:// execution: content-addressed bytes only. Never HTTPS.
 func (r Records) Run() string {
 	for _, v := range []string{r.IPFS, r.KFS, r.ContentHash} {
-		if strings.TrimSpace(v) != "" {
-			return strings.TrimSpace(v)
+		if s := contentPtr(v); s != "" {
+			return s
 		}
 	}
 	return ""
@@ -138,14 +162,7 @@ const ResolveWarning = "⚠️ Before sending a transaction, please ensure that 
 var ProposedKeys = []string{KeyIPFS, KeyKFS, KeyContent, KeyPeer, KeyOnion, KeyAgent, KeyKAS, KeyNoise}
 
 func PayURI(addr string) string {
-	addr = strings.TrimSpace(addr)
-	if addr == "" {
-		return ""
-	}
-	if strings.HasPrefix(addr, "kaspa:") || strings.HasPrefix(addr, "kaspatest:") {
-		return addr
-	}
-	return "kaspa:" + addr
+	return kaspaAddr(addr)
 }
 
 func URI(name, path string) string {

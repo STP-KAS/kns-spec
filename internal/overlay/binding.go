@@ -1,20 +1,41 @@
 package overlay
 
 import (
+	"encoding/hex"
 	"fmt"
+	"net/url"
 	"strconv"
 	"strings"
 )
 
-// BindingMessage is what a wallet signs with KIP-5 Schnorr (not ECDSA).
-// noise is an X25519 public key hex. Never the Kaspa spend key.
-func BindingMessage(name, ownerXonly, noiseX25519 string, seq int, expUnix int64) string {
+func hex32(s string) (string, bool) {
+	s = strings.ToLower(strings.TrimSpace(s))
+	b, err := hex.DecodeString(s)
+	if err != nil || len(b) != 32 {
+		return "", false
+	}
+	return s, true
+}
+
+// BindingMessage is KIP-5 Schnorr payload. noise is X25519 public hex, not the spend key.
+func BindingMessage(name, ownerXonly, noiseX25519 string, seq int, expUnix int64) (string, error) {
 	name = strings.ToLower(strings.TrimSpace(name))
+	if strings.ContainsAny(name, "\n= ") {
+		return "", fmt.Errorf("bad name")
+	}
 	if !strings.HasSuffix(name, ".kas") {
 		name += ".kas"
 	}
+	owner, ok := hex32(ownerXonly)
+	if !ok {
+		return "", fmt.Errorf("owner must be 32-byte hex")
+	}
+	noise, ok := hex32(noiseX25519)
+	if !ok {
+		return "", fmt.Errorf("noise must be 32-byte hex")
+	}
 	return fmt.Sprintf("kns-session/v1\nname=%s\nowner=%s\nnoise=%s\nseq=%d\nexp=%d",
-		name, strings.TrimSpace(ownerXonly), strings.TrimSpace(noiseX25519), seq, expUnix)
+		name, owner, noise, seq, expUnix), nil
 }
 
 func ParseURI(raw string) (name, path string, ok bool) {
@@ -45,24 +66,42 @@ func ParseCap(path string) (token string, ok bool) {
 
 func InvoiceURI(payTo, name, resource, sompi string) string {
 	u := PayURI(payTo)
-	if name == "" && resource == "" && sompi == "" {
-		return u
+	if u == "" {
+		return ""
 	}
-	q := []string{}
+	q := url.Values{}
 	if name != "" {
-		q = append(q, "label="+name)
+		q.Set("label", name)
 	}
 	if resource != "" {
-		q = append(q, "message="+resource)
+		q.Set("message", resource)
 	}
 	if sompi != "" {
-		if n, err := strconv.ParseInt(sompi, 10, 64); err == nil {
-			kas := float64(n) / 1e8
-			q = append(q, fmt.Sprintf("amount=%g", kas))
+		n, err := strconv.ParseInt(sompi, 10, 64)
+		if err != nil || n < 0 {
+			return ""
 		}
+		q.Set("amount", sompiToKAS(n))
 	}
-	if len(q) == 0 {
+	enc := q.Encode()
+	if enc == "" {
 		return u
 	}
-	return u + "?" + strings.Join(q, "&")
+	return u + "?" + enc
+}
+
+func sompiToKAS(n int64) string {
+	neg := ""
+	if n < 0 {
+		neg = "-"
+		n = -n
+	}
+	whole := n / 100000000
+	frac := n % 100000000
+	if frac == 0 {
+		return fmt.Sprintf("%s%d", neg, whole)
+	}
+	s := fmt.Sprintf("%s%d.%08d", neg, whole, frac)
+	s = strings.TrimRight(s, "0")
+	return strings.TrimRight(s, ".")
 }

@@ -17,6 +17,10 @@ func TestAppOrder(t *testing.T) {
 	if r.Run() != "ipfs://b" {
 		t.Fatal("run still cid")
 	}
+	bad := Records{IPFS: "https://evil.example/"}
+	if bad.Run() != "" {
+		t.Fatal("https is not run")
+	}
 }
 
 func TestSessionPrefersPeer(t *testing.T) {
@@ -43,8 +47,11 @@ func TestFromMapNil(t *testing.T) {
 }
 
 func TestPayURI(t *testing.T) {
-	if PayURI("kaspa:qq") != "kaspa:qq" || PayURI("qq") != "kaspa:qq" {
+	if PayURI("kaspa:qq") != "kaspa:qq" {
 		t.Fatal("pay uri")
+	}
+	if PayURI("javascript:alert(1)") != "" || PayURI("qq") != "" {
+		t.Fatal("reject non-kaspa")
 	}
 }
 

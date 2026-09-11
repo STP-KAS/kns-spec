@@ -21,9 +21,10 @@ type Snapshot struct {
 	Session   string           `json:"session"`
 	Primary   string           `json:"primary,omitempty"`
 	PrimaryOK bool             `json:"primaryOk"`
-	KNS       string           `json:"kns"`
-	Records   overlay.Records  `json:"records"`
-	Warn      string           `json:"warn"`
+	KNS          string          `json:"kns"`
+	Records      overlay.Records `json:"records"`
+	Warn         string          `json:"warn"`
+	ProfileError string          `json:"profileError,omitempty"`
 }
 
 func (c *Client) Snapshot(name string) (*Snapshot, error) {
@@ -35,13 +36,17 @@ func (c *Client) Snapshot(name string) (*Snapshot, error) {
 	if err != nil {
 		return nil, err
 	}
-	rec := overlay.Records{KAS: own.Owner}
-	if p, err := c.Profile(own.AssetID); err == nil && p != nil {
-		got := overlay.FromMap(p.Profile)
-		if got.KAS == "" {
-			got.KAS = own.Owner
-		}
-		rec = got
+	rec := overlay.Records{}
+	if p, err := c.Profile(own.AssetID); err != nil {
+		s0 := &Snapshot{Name: name, Owner: own.Owner, AssetID: own.AssetID, Warn: overlay.ResolveWarning, ProfileError: err.Error()}
+		s0.Pay = own.Owner
+		s0.PayURI = overlay.PayURI(own.Owner)
+		return s0, nil
+	} else if p != nil {
+		rec = overlay.FromMap(p.Profile)
+	}
+	if rec.KAS == "" {
+		rec.KAS = own.Owner
 	}
 	pay := rec.PayAddress()
 	if pay == "" {
@@ -49,25 +54,32 @@ func (c *Client) Snapshot(name string) (*Snapshot, error) {
 		rec.KAS = own.Owner
 	}
 	s := &Snapshot{
-		Name:     name,
-		Owner:    own.Owner,
-		AssetID:  own.AssetID,
-		Pay:      pay,
-		PayURI:   overlay.PayURI(pay),
-		Web:      rec.Web(),
-		Run:      rec.Run(),
-		Session:  rec.Session(),
-		KNS:      overlay.URI(name, ""),
-		Records:  rec,
-		Warn:     overlay.ResolveWarning,
-		Verified: own.Owner != "",
+		Name:    name,
+		Owner:   own.Owner,
+		AssetID: own.AssetID,
+		Pay:     pay,
+		PayURI:  overlay.PayURI(pay),
+		Web:     rec.Web(),
+		Run:     rec.Run(),
+		Session: rec.Session(),
+		KNS:     overlay.URI(name, ""),
+		Records: rec,
+		Warn:    overlay.ResolveWarning,
 	}
 	if a, err := c.Asset(name); err == nil && a != nil {
 		s.TxID = a.TransactionID
+		st := strings.ToLower(a.Status)
+		s.Verified = st == "verified" || st == "valid" || st == "active"
 	}
-	if p, err := c.Primary(own.Owner); err == nil && p != nil && p.Domain != nil {
-		s.Primary = p.Domain.FullName
-		s.PrimaryOK = strings.EqualFold(p.Domain.FullName, name)
+	if p, err := c.Primary(own.Owner); err == nil && p != nil && p.Domain != nil && p.Domain.FullName != "" {
+		fwd, ferr := c.Owner(p.Domain.FullName)
+		if ferr == nil && strings.EqualFold(fwd.Owner, own.Owner) {
+			s.Primary = p.Domain.FullName
+			s.PrimaryOK = strings.EqualFold(p.Domain.FullName, name)
+			if p.Domain.IsVerified {
+				s.Verified = true
+			}
+		}
 	}
 	return s, nil
 }

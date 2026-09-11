@@ -1,11 +1,23 @@
 package overlay
 
-import "testing"
+import (
+	"strings"
+	"testing"
+)
 
 func TestBinding(t *testing.T) {
-	m := BindingMessage("Alice.KAS", "ab", "cd", 1, 2)
-	if m != "kns-session/v1\nname=alice.kas\nowner=ab\nnoise=cd\nseq=1\nexp=2" {
+	own := strings.Repeat("ab", 32)
+	noise := strings.Repeat("cd", 32)
+	m, err := BindingMessage("Alice.KAS", own, noise, 1, 2)
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := "kns-session/v1\nname=alice.kas\nowner=" + own + "\nnoise=" + noise + "\nseq=1\nexp=2"
+	if m != want {
 		t.Fatal(m)
+	}
+	if _, err := BindingMessage("a\nnoise=ff", own, noise, 1, 2); err == nil {
+		t.Fatal("newline")
 	}
 }
 
@@ -31,8 +43,8 @@ func TestParseCap(t *testing.T) {
 }
 
 func TestInvoiceURI(t *testing.T) {
-	u := InvoiceURI("kaspa:qq", "alice.kas", "/api", "100000000")
-	if u != "kaspa:qq?label=alice.kas&message=/api&amount=1" {
+	u := InvoiceURI("kaspa:qq", "alice.kas", "/api&amount=9", "100000000")
+	if u != "kaspa:qq?amount=1&label=alice.kas&message=%2Fapi%26amount%3D9" {
 		t.Fatal(u)
 	}
 }
