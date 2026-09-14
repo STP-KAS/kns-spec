@@ -29,18 +29,10 @@
 </main>
 <footer>STP-KAS · uses official api.knsdomains.org · not a wallet</footer>
 <script>
-const API = "https://api.knsdomains.org/mainnet/api/v1";
-const keys = "redirectUrl,bio,avatarUrl,website,x,github,telegram,discord,email,banner,ipfs,kfs,contenthash,peer,onion,agent,kas,noise";
 function withKas(n) {
   n = (n || "").trim().toLowerCase();
   return n.endsWith(".kas") ? n : n + ".kas";
 }
-function pick(m, k) { const v = m && m[k]; return (typeof v === "string" && v.trim()) ? v.trim() : ""; }
-function web(r) {
-  return pick(r,"redirectUrl") || pick(r,"website") || pick(r,"ipfs") || pick(r,"kfs") || pick(r,"arweave") || pick(r,"contenthash");
-}
-function run(r) { return pick(r,"ipfs") || pick(r,"kfs") || pick(r,"contenthash"); }
-function session(r) { return pick(r,"peer") || pick(r,"onion") || pick(r,"noise"); }
 function esc(s) { return String(s||"").replace(/[&<>"'`]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;","`":"&#96;"}[c])); }
 function safeHref(s) {
   s = (s || "").trim();
@@ -48,38 +40,63 @@ function safeHref(s) {
   if (!ok || /[\s<>"'`]/.test(s)) return "";
   return s;
 }
+function renderSnap(s) {
+  const name = s.name || "";
+  const pay = s.payUri || s.pay || "";
+  const w = s.web || "";
+  const r = s.run || "";
+  const sess = s.session || "";
+  let html = "<h2>" + esc(name) + "</h2>";
+  html += "<p><code>" + esc(s.kns || ("kns://" + name)) + "</code></p>";
+  html += "<div class='card'><h3>Pay</h3><p class='mono'>" + esc(pay) + "</p>";
+  const payH = safeHref(pay);
+  html += payH ? "<p><a href=\"" + esc(payH) + "\">kaspa URI</a></p></div>" : "<p>not a kaspa: address</p></div>";
+  const wH = safeHref(w);
+  html += "<div class='card'><h3>Web (.limo / browser)</h3><p>" + (wH ? "<a href=\"" + esc(wH) + "\">" + esc(w) + "</a>" : (w ? esc(w) : "none")) + "</p></div>";
+  html += "<div class='card'><h3>Run (CID only)</h3>";
+  if (r) html += "<p class='mono'>" + esc(r) + "</p><p>Fetch this CID locally. Do not use ipfs.io as truth.</p>";
+  else html += "<p>No CID. Identity + pay only. Not a dApp.</p>";
+  html += "</div>";
+  html += "<div class='card'><h3>Session</h3><p>" + (sess ? esc(sess) : "none — default is capability, not a public IP") + "</p></div>";
+  if (s.primary) html += "<p>Primary " + esc(s.primary) + (s.primaryOk ? " (forward-checked)" : " (not this name)") + "</p>";
+  html += "<p class='tiny'>Owner " + esc(s.owner) + " · id " + esc(s.assetId) + (s.verified ? " · verified" : "") + "</p>";
+  if (s.warn) html += "<p class='tiny'>" + esc(s.warn) + "</p>";
+  return html;
+}
 async function resolve() {
   const name = withKas(document.getElementById("q").value);
   const out = document.getElementById("out");
   out.innerHTML = "<p>Resolving…</p>";
   try {
+    const local = location.protocol === "http:" && (location.hostname === "127.0.0.1" || location.hostname === "localhost");
+    if (local) {
+      const res = await fetch("/api/resolve?q=" + encodeURIComponent(name));
+      const s = await res.json();
+      if (!res.ok) throw new Error(s.error || res.statusText);
+      out.innerHTML = renderSnap(s);
+      return;
+    }
+    const API = "https://api.knsdomains.org/mainnet/api/v1";
+    const keys = "redirectUrl,bio,avatarUrl,website,x,github,telegram,discord,email,banner,ipfs,kfs,contenthash,peer,onion,agent,kas,noise";
     const ownRes = await fetch(API + "/" + encodeURIComponent(name) + "/owner");
     const ownJ = await ownRes.json();
     if (!ownJ.success || !ownJ.data || !ownJ.data.owner) throw new Error("not found");
-    const owner = ownJ.data.owner;
-    const id = ownJ.data.assetId;
     let rec = {};
     try {
-      const pRes = await fetch(API + "/domain/" + encodeURIComponent(id) + "/profile?keys=" + encodeURIComponent(keys));
+      const pRes = await fetch(API + "/domain/" + encodeURIComponent(ownJ.data.assetId) + "/profile?keys=" + encodeURIComponent(keys));
       const pJ = await pRes.json();
       rec = (pJ.data && pJ.data.profile) || {};
     } catch (e) {}
-    const pay = pick(rec,"kas") || pick(rec,"pay") || owner;
-    const w = web(rec), r = run(rec), sess = session(rec);
-    let html = "<h2>" + esc(name) + "</h2>";
-    html += "<p><code>kns://" + esc(name) + "</code></p>";
-    html += "<div class='card'><h3>Pay</h3><p class='mono'>" + esc(pay) + "</p>";
-    const payH = safeHref(pay);
-    html += payH ? "<p><a href=\"" + esc(payH) + "\">kaspa URI</a></p></div>" : "<p>not a kaspa: address</p></div>";
-    const wH = safeHref(w);
-    html += "<div class='card'><h3>Web (.limo / browser)</h3><p>" + (wH ? "<a href=\"" + esc(wH) + "\">" + esc(w) + "</a>" : (w ? esc(w) : "none")) + "</p></div>";
-    html += "<div class='card'><h3>Run (kns:// sandbox)</h3>";
-    if (r) html += "<p class='mono'>" + esc(r) + "</p><p>Fetch this CID locally. Do not use ipfs.io as truth.</p>";
-    else html += "<p>No CID. This name is identity + pay only. Not a dApp.</p>";
-    html += "</div>";
-    html += "<div class='card'><h3>Session</h3><p>" + (sess ? esc(sess) : "none — default is capability, not a public IP") + "</p></div>";
-    html += "<p class='tiny'>Owner " + esc(owner) + " · id " + esc(id) + "</p>";
-    out.innerHTML = html;
+    const pick = (k) => (typeof rec[k] === "string" && rec[k].trim()) ? rec[k].trim() : "";
+    const snap = {
+      name, owner: ownJ.data.owner, assetId: ownJ.data.assetId, kns: "kns://" + name,
+      pay: pick("kas") || ownJ.data.owner, payUri: pick("kas") || ownJ.data.owner,
+      web: pick("redirectUrl") || pick("website") || pick("ipfs"),
+      run: (pick("ipfs").indexOf("ipfs:") === 0 ? pick("ipfs") : "") || (pick("kfs") ? pick("kfs") : "") || (pick("contenthash") ? pick("contenthash") : ""),
+      session: pick("peer") || pick("onion") || pick("noise"),
+      warn: document.getElementById("warn").textContent
+    };
+    out.innerHTML = renderSnap(snap);
   } catch (e) {
     out.innerHTML = "<p>Failed: " + esc(e.message) + "</p>";
   }
