@@ -34,6 +34,8 @@ go run ./cmd/kns-spec resolve kns.kas
 go run ./cmd/kns-spec overlay kns.kas
 go run ./cmd/kns-spec vectors
 go run ./cmd/kns-spec bind alice.kas <xonly> <noise-x25519>
+go run ./cmd/kns-spec serve
+# http://127.0.0.1:8083/open.html
 ```
 
 ## Proven mainnet txs

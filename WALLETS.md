@@ -23,4 +23,4 @@ Official must-reads:
 
 FAQ still says “only KasWare” in places. Use **this table**, not the FAQ, for wallet support.
 
-dApp inject on the open web is still only KasWare and Kastle extension. Kurncy and Kasanova inscribe inside their apps.
+dApp inject on the open web is still only KasWare and Kastle extension. Kurncy and Kasanova inscribe inside their apps. [KCC-0012](https://github.com/kaspanet/kccs/pull/24) (wallet provider discovery) is **Draft**. Do not wait for it.

@@ -70,6 +70,8 @@ func main() {
 			fail(err.Error())
 		}
 		fmt.Println(msg)
+	case "serve":
+		serve()
 	default:
 		usage()
 		os.Exit(2)
@@ -91,6 +93,7 @@ func usage() {
   kns-spec primary <kaspa:addr>
   kns-spec vectors
   kns-spec bind <name.kas> <owner-xonly> <noise-x25519> [seq] [exp]
+  kns-spec serve          # http://127.0.0.1:8083  (KNS_SPEC_ADDR to override)
 `)
 }
 

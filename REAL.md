@@ -4,6 +4,8 @@
 
 Live today: type `kns.kas` in a supporting wallet → indexer returns a `kaspa:` address → you send KAS. Profile fields (website, X, …) are extra inscriptions. [open.html](https://stp-kas.github.io/kns-spec/open.html) shows that split. `run` is empty until someone publishes an `ipfs://` CID.
 
+Local host (this PC): `go run ./cmd/kns-spec serve` → http://127.0.0.1:8083/open.html — not GitHub, not a wallet.
+
 ## What is real vs paper
 
 | Real | Paper (do not sell as shipped) |
