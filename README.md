@@ -17,7 +17,7 @@ For the KNS team and wallets. Two objects. Do not mix them.
 
 Live uniqueness of `alice.kas` is still the [KNS indexer](https://api.knsdomains.org/mainnet). A KIP-20 `covenant_id` is hashed from an outpoint. It does not encode the label. Anyone can genesis another UTXO that writes `alice` in state. Nodes accept both.
 
-Sister demo (Web4 UI, not this spec): [STP-KAS/kns](https://github.com/STP-KAS/kns).
+Sister demo (Web4 UI, not this spec): [STP-KAS/kns](https://github.com/STP-KAS/kns). Sister mix (DOTK + `.kas`, paper): [STP-KAS/kns-dotk](https://github.com/STP-KAS/kns-dotk). Independent 19 Sep 2026 pass of Kaspire-on-KNS-TN10: [STP-KAS/kns-kaspire-tn10-review](https://github.com/STP-KAS/kns-kaspire-tn10-review).
 
 ## Implement this
 
