@@ -6,6 +6,8 @@ Official KNS (not us): [inscriptions](https://kns-2.gitbook.io/kns-docs-1/inscri
 
 Repo: https://github.com/STP-KAS/kns-spec
 
+TN10 snapshot test holder set (addresses + `.kas` names, Testnet-10 only): [snapshot-tn10/](snapshot-tn10/).
+
 This is a handoff, not a fork of your product and not a claim that covenants already unique `.kas` names.
 
 ## What we are asking you to implement

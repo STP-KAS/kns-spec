@@ -19,6 +19,8 @@ Live uniqueness of `alice.kas` is still the [KNS indexer](https://api.knsdomains
 
 Sister demo (Web4 UI, not this spec): [STP-KAS/kns](https://github.com/STP-KAS/kns). Sister mix (DOTK + `.kas`, paper): [STP-KAS/kns-dotk](https://github.com/STP-KAS/kns-dotk). Independent 19 Sep 2026 pass of Kaspire-on-KNS-TN10: [STP-KAS/kns-kaspire-tn10-review](https://github.com/STP-KAS/kns-kaspire-tn10-review).
 
+TN10 snapshot test holder set (25,700 `kaspatest:` addresses + the `.kas` names they hold, tKAS only): [snapshot-tn10/](snapshot-tn10/). Log: [STP-KAS/kns-tn10-testing](https://github.com/STP-KAS/kns-tn10-testing).
+
 ## Implement this
 
 Official docs: [inscriptions](https://kns-2.gitbook.io/kns-docs-1/inscriptions/overview) · [wallets](https://kns-2.gitbook.io/kns-docs-1/supporting-wallet) · [indexer API](https://kns-2.gitbook.io/kns-docs-1/kns-indexer-api) · [simply-kaspa-indexer](https://github.com/supertypo/simply-kaspa-indexer)
