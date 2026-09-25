@@ -8,6 +8,8 @@ Repo: https://github.com/STP-KAS/kns-spec
 
 TN10 snapshot test holder set (addresses + `.kas` names, Testnet-10 only): [snapshot-tn10/](snapshot-tn10/).
 
+How we recommend testing a snapshot / claim with it: [snapshot-tn10/TESTING-SNAPSHOT.md](snapshot-tn10/TESTING-SNAPSHOT.md).
+
 This is a handoff, not a fork of your product and not a claim that covenants already unique `.kas` names.
 
 ## What we are asking you to implement
